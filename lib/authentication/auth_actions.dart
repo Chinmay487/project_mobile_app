@@ -40,3 +40,44 @@ class LogoutAction extends StatelessWidget {
   }
 }
 
+class CartAction extends StatelessWidget {
+  const CartAction({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 10,horizontal: 0),
+      child: GestureDetector(
+        onTap: (){},
+        child:const Text(
+          "View Cart",
+          style: TextStyle(
+            fontSize: 16,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ProfileAction extends StatelessWidget {
+  const ProfileAction({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 10,horizontal: 0),
+      child: GestureDetector(
+        onTap: (){},
+        child:const Text(
+          "Profile",
+          style: TextStyle(
+            fontSize: 16,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+

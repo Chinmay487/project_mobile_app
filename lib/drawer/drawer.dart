@@ -17,31 +17,33 @@ class MyDrawer extends StatelessWidget {
         child: Drawer(
           // backgroundColor: ,
           child: ListView(
+            // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               const AppDrwerHeader(),
               Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    children: [
-                      DrawerElement(category:"laptop"),
-                      DrawerElement(category: "camera",),
-                      DrawerElement(category:"iphone",),
-                      DrawerElement(category:"Clock",),
-                      DrawerElement(category:"Watch",),
-                    ],
-                  ),
-                  Column(
-                    children:const  [
-                      LoginAction(),
-                      LogoutAction(),
-                    ],
-                  )
-
-
+                  DrawerElement(category:"laptop"),
+                  DrawerElement(category: "camera",),
+                  DrawerElement(category:"iphone",),
+                  DrawerElement(category:"Clock",),
+                  DrawerElement(category:"Watch",),
                 ],
-              )
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height*0.2,
+              ),
+              const Divider(
+                thickness: 2.0,
+              ),
+              Column(
+                // mainAxisAlignment: MainAxisAlignment.start,
+                children:const  [
+                  LoginAction(),
+                  ProfileAction(),
+                  CartAction(),
+                  LogoutAction(),
+                ],
+              ),
             ],
           ),
         ),
