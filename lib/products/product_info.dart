@@ -8,20 +8,29 @@ class ProductInfo extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: const [
-        Text(
-          "Price : 300",
-          style: TextStyle(
-            fontSize: 21,
-            color: Color(0xff607D8B),
-          ),
+        SizedBox(
+          height: 10,
         ),
         Text(
-          "Discount Price : 250",
+          "Discount Price : \u{20B9} 250",
           style: TextStyle(
-            fontSize: 23,
+            fontSize: 21,
+            fontWeight: FontWeight.bold,
             color: Color(0xff263238),
           ),
         ),
+        SizedBox(
+          height: 10,
+        ),
+        Text(
+          "MRP : \u{20B9} 300",
+          style: TextStyle(
+            fontSize: 18,
+            decoration: TextDecoration.lineThrough,
+            color: Color(0xff607D8B),
+          ),
+        ),
+
         // Text(
         //   "Quantity Available : 30",
         //   style: TextStyle(
