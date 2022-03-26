@@ -5,6 +5,7 @@ import "./product_quantity.dart";
 import "./reviews.dart";
 import "./buy_button_group.dart";
 import "./review_form.dart";
+import "../app_routes.dart";
 
 class DetailView extends StatefulWidget {
   const DetailView({Key? key}) : super(key: key);
@@ -55,10 +56,11 @@ class _DetailViewState extends State<DetailView> {
           child: Column(
             children: [
               Expanded(
-                flex: 4,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
-                      vertical: 12.0, horizontal: 15.0),
+                    vertical: 12.0,
+                    horizontal: 15.0,
+                  ),
                   child: ListView(
                     children: [
                       const ProductImage(),
@@ -81,21 +83,31 @@ class _DetailViewState extends State<DetailView> {
                       Padding(
                         padding: EdgeInsets.symmetric(
                             vertical: 0,
-                            horizontal:MediaQuery.of(context).size.width*0.3
+                            horizontal:
+                                MediaQuery.of(context).size.width * 0.3,
                         ),
                         child: ElevatedButton(
-                            onPressed: (){},
-                            child: Text("View More"),
+                          onPressed: () {
+                            Navigator.pushNamed(context,AppRoutes.moreReviewsRoute);
+                          },
+                          child: const Text(
+                              "View More",
+                          ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
-                      Divider(thickness: 1.0,),
-                      UserReviewForm(),
+                      const Divider(
+                        thickness: 1.0,
+                      ),
+                      const UserReviewForm(),
                     ],
                   ),
                 ),
+              ),
+              const Divider(
+                thickness: 1.0,
               ),
               const BuyButtonGroup(),
             ],

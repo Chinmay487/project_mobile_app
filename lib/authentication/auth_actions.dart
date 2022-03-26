@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "../app_routes.dart";
 
 class LoginAction extends StatelessWidget {
   const LoginAction({Key? key}) : super(key: key);
@@ -74,7 +75,9 @@ class CartAction extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10,horizontal: 0),
       child: GestureDetector(
-        onTap: (){},
+        onTap: (){
+          Navigator.pushNamed(context,AppRoutes.cartPageroute);
+        },
         child:const Text(
           "View Cart",
           style: TextStyle(
@@ -94,7 +97,9 @@ class ProfileAction extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10,horizontal: 0),
       child: GestureDetector(
-        onTap: (){},
+        onTap: (){
+          Navigator.pushNamed(context,AppRoutes.profilePageroute);
+        },
         child:const Text(
           "Profile",
           style: TextStyle(

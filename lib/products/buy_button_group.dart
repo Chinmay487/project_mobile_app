@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "../app_routes.dart";
 
 class BuyButtonGroup extends StatelessWidget {
   const BuyButtonGroup({Key? key}) : super(key: key);
@@ -11,7 +12,9 @@ class BuyButtonGroup extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context,AppRoutes.cartPageroute);
+            },
             child: const Text("Buy Now"),
           ),
           const SizedBox(width: 30.0,),

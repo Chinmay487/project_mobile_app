@@ -5,4 +5,5 @@ class AppRoutes{
   static String cartPageroute = "/cart";
   static String categotyRoute = "/category";
   static String detailViewRoute = "/detail";
+  static String moreReviewsRoute = "/more_reviews";
 }
