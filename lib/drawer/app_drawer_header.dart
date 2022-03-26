@@ -8,7 +8,7 @@ class AppDrwerHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    const _imageUrl = "https://ggsc.s3.amazonaws.com/images/uploads/The_Science-Backed_Benefits_of_Being_a_Dog_Owner.jpg";
+    const String _imageUrl = "https://ggsc.s3.amazonaws.com/images/uploads/The_Science-Backed_Benefits_of_Being_a_Dog_Owner.jpg";
 
     return Column(
       children:  const [

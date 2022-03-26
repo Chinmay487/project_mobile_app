@@ -22,6 +22,7 @@ class MyDrawer extends StatelessWidget {
               const AppDrwerHeader(),
               Column(
                 children: [
+                  DrawerElement(category: "Home",),
                   DrawerElement(category:"laptop"),
                   DrawerElement(category: "camera",),
                   DrawerElement(category:"iphone",),
@@ -38,7 +39,7 @@ class MyDrawer extends StatelessWidget {
               Column(
                 // mainAxisAlignment: MainAxisAlignment.start,
                 children:const  [
-                  LoginAction(),
+                  // LoginAction(),
                   ProfileAction(),
                   CartAction(),
                   LogoutAction(),
