@@ -7,15 +7,12 @@ class LoginAction extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10,horizontal: 0),
+      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 0),
       child: GestureDetector(
-        onTap: (){},
-        child:const Text(
+        onTap: () {},
+        child: const Text(
           "Login",
-          style: TextStyle(
-            fontSize: 16,
-            color: Colors.blueGrey
-          ),
+          style: TextStyle(fontSize: 16, color: Colors.blueGrey),
         ),
       ),
     );
@@ -28,24 +25,20 @@ class LoginActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 10,horizontal: 0),
+      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
       child: ElevatedButton(
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all<Color>(Color(0xffCFD8DC)),
         ),
-        onPressed: (){},
-        child:const Text(
+        onPressed: () {},
+        child: const Text(
           "Login",
-          style: TextStyle(
-              fontSize: 16,
-              color: Color(0xff37474F)
-          ),
+          style: TextStyle(fontSize: 16, color: Color(0xff37474F)),
         ),
       ),
     );
   }
 }
-
 
 class LogoutAction extends StatelessWidget {
   const LogoutAction({Key? key}) : super(key: key);
@@ -53,10 +46,10 @@ class LogoutAction extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 10,horizontal: 0),
+      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
       child: GestureDetector(
-        onTap: (){},
-        child:const Text(
+        onTap: () {},
+        child: const Text(
           "Logout",
           style: TextStyle(
             fontSize: 16,
@@ -73,12 +66,12 @@ class CartAction extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 10,horizontal: 0),
+      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
       child: GestureDetector(
-        onTap: (){
-          Navigator.pushNamed(context,AppRoutes.cartPageroute);
+        onTap: () {
+          Navigator.pushNamed(context, AppRoutes.cartPageroute);
         },
-        child:const Text(
+        child: const Text(
           "View Cart",
           style: TextStyle(
             fontSize: 16,
@@ -95,12 +88,12 @@ class ProfileAction extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 10,horizontal: 0),
+      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
       child: GestureDetector(
-        onTap: (){
-          Navigator.pushNamed(context,AppRoutes.profilePageroute);
+        onTap: () {
+          Navigator.pushNamed(context, AppRoutes.profilePageroute);
         },
-        child:const Text(
+        child: const Text(
           "Profile",
           style: TextStyle(
             fontSize: 16,
@@ -116,18 +109,33 @@ class AvatarMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    String _imageUrl = "https://ggsc.s3.amazonaws.com/images/uploads/The_Science-Backed_Benefits_of_Being_a_Dog_Owner.jpg";
-    return GestureDetector(
-      onTap: (){},
-      child: CircleAvatar(
+    String _imageUrl =
+        "https://ggsc.s3.amazonaws.com/images/uploads/The_Science-Backed_Benefits_of_Being_a_Dog_Owner.jpg";
+    return PopupMenuButton(
+      offset: const Offset(0.0, 55.0),
+      icon: CircleAvatar(
         backgroundImage: NetworkImage(_imageUrl),
       ),
+      itemBuilder: (BuildContext context) {
+        return [
+          PopupMenuItem(
+            child: const Text('Profile'),
+            onTap: (){
+              Navigator.pushNamed(context,AppRoutes.profilePageroute);
+            },
+          ),
+          PopupMenuItem(
+            // value: '2',
+            child: const Text('Cart'),
+            onTap: (){
+              Navigator.pushNamed(context,AppRoutes.cartPageroute);
+            },
+          ),
+          const PopupMenuItem(
+            child: Text("Logout"),
+          ),
+        ];
+      },
     );
   }
 }
-
-
-
-
-

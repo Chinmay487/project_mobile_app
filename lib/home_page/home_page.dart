@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import "../drawer/drawer.dart";
 import "../products/product_list.dart";
+import "../authentication/auth_actions.dart";
 
 
 
@@ -19,10 +20,10 @@ class HomePage extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        // actions: [
-        //   // LoginActionButton(),
-        //   AvatarMenu(),
-        // ],
+        actions: [
+          // LoginActionButton(),
+          AvatarMenu(),
+        ],
         backgroundColor: const Color(0xffECEFF1),
       ),
       drawer: const MyDrawer(),
