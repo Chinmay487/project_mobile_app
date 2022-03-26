@@ -4,4 +4,5 @@ class AppRoutes{
   static String profilePageroute = "/profile";
   static String cartPageroute = "/cart";
   static String categotyRoute = "/category";
+  static String detailViewRoute = "/detail";
 }

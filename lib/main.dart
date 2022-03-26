@@ -1,5 +1,7 @@
 import "package:flutter/material.dart";
 import "./home_page/home_page.dart";
+import "./app_routes.dart";
+import "./products/detail_view.dart";
 
 void main(){
   return runApp(const Root());
@@ -14,7 +16,8 @@ class Root extends StatelessWidget {
     return MaterialApp(
       initialRoute: "/",
       routes:{
-        "/" : (context) => const HomePage(),
+        AppRoutes.homePageRoute : (context) => const HomePage(),
+        AppRoutes.detailViewRoute : (context) => const DetailView(),
       },
     );
   }

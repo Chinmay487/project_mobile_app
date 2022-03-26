@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-
+import "../app_routes.dart";
 
 class ProductCard extends StatelessWidget {
   const ProductCard({Key? key}) : super(key: key);
@@ -54,7 +54,9 @@ class ProductCard extends StatelessWidget {
                   InkWell(
                       highlightColor:Color(0xffCFD8DC),
                       splashColor: Color(0xff4FC3F7),
-                      onTap:(){},
+                      onTap:(){
+                        Navigator.pushNamed(context,AppRoutes.detailViewRoute);
+                      },
                       child:Padding(
                         padding: EdgeInsets.all(10.0),
                         child: Text(
