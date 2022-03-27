@@ -104,42 +104,6 @@ class ProfileAction extends StatelessWidget {
   }
 }
 
-class AvatarMenu extends StatelessWidget {
-  const AvatarMenu({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    String _imageUrl =
-        "https://ggsc.s3.amazonaws.com/images/uploads/The_Science-Backed_Benefits_of_Being_a_Dog_Owner.jpg";
-    return PopupMenuButton(
-      offset: const Offset(0.0, 55.0),
-      icon: CircleAvatar(
-        backgroundImage: NetworkImage(_imageUrl),
-      ),
-      itemBuilder: (BuildContext context) {
-        return [
-          PopupMenuItem(
-            child: const Text('Profile'),
-            value: 1,
-            onTap: (){
-              print("profile");
-              Navigator.pushNamed(context,AppRoutes.profilePageroute);
-            },
-          ),
-          PopupMenuItem(
-            // value: '2',
-            child: const Text('Cart'),
-            value: 2,
-            onTap: (){
-              print("cart");
-              Navigator.pushNamed(context,AppRoutes.cartPageroute);
-            },
-          ),
-          const PopupMenuItem(
-            child: Text("Logout"),
-          ),
-        ];
-      },
-    );
-  }
-}
+
+

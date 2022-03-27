@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import "../drawer/drawer.dart";
 import "../products/product_list.dart";
 import "../authentication/auth_actions.dart";
+import "../avatar/avatar_menu.dart";
 
 
 
