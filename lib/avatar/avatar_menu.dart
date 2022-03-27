@@ -19,7 +19,6 @@ class AvatarMenu extends StatelessWidget {
           PopupMenuItem(
               child: AvatarMenuItem(
                 onTapFunction: () {
-                  print("profile");
                   Navigator.pushNamed(context, AppRoutes.profilePageroute);
                 },
                 displayText: "Profile",
@@ -29,16 +28,13 @@ class AvatarMenu extends StatelessWidget {
               child: AvatarMenuItem(
                 displayText: "Cart",
                 onTapFunction: () {
-                  print("cart");
                   Navigator.pushNamed(context, AppRoutes.cartPageroute);
                 },
               )
           ),
           PopupMenuItem(
             child: AvatarMenuItem(
-              onTapFunction: (){
-                print("Logout Tap");
-              },
+              onTapFunction: (){},
               displayText: "Logout",
             ),
           ),
