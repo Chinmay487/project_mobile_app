@@ -120,14 +120,18 @@ class AvatarMenu extends StatelessWidget {
         return [
           PopupMenuItem(
             child: const Text('Profile'),
+            value: 1,
             onTap: (){
+              print("profile");
               Navigator.pushNamed(context,AppRoutes.profilePageroute);
             },
           ),
           PopupMenuItem(
             // value: '2',
             child: const Text('Cart'),
+            value: 2,
             onTap: (){
+              print("cart");
               Navigator.pushNamed(context,AppRoutes.cartPageroute);
             },
           ),

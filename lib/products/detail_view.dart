@@ -56,6 +56,7 @@ class _DetailViewState extends State<DetailView> {
           child: Column(
             children: [
               Expanded(
+                flex: 2,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                     vertical: 12.0,
@@ -109,7 +110,10 @@ class _DetailViewState extends State<DetailView> {
               const Divider(
                 thickness: 1.0,
               ),
-              const BuyButtonGroup(),
+              Expanded(
+                flex: 0,
+                  child: const BuyButtonGroup(),
+              ),
             ],
           ),
         ),

@@ -13,45 +13,49 @@ class ProductQuantity extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            alignment: Alignment.bottomRight,
-            child: const Text(
-              "Quantity : ",
-              style: TextStyle(
-                fontSize: 17,
-                color: Color(0xff37474F),
-              ),
-            ),
-          ),
-          Row(
+    return Row(
+      children: [
+        Expanded(
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              QuantityButton(
-                tapFunction: incrementFunction,
-                buttonIcon: Icons.add,
+              Container(
+                alignment: Alignment.bottomRight,
+                child: const Text(
+                  "Quantity : ",
+                  style: TextStyle(
+                    fontSize: 17,
+                    color: Color(0xff37474F),
+                  ),
+                ),
               ),
-              const SizedBox(
-                width: 10,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  QuantityButton(
+                    tapFunction: incrementFunction,
+                    buttonIcon: Icons.add,
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text("$quantity",
+                      style: const TextStyle(
+                        fontSize: 18,
+                      )),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  QuantityButton(
+                    tapFunction: decrementFunction,
+                    buttonIcon: Icons.remove,
+                  )
+                ],
               ),
-              Text("$quantity",
-                  style: const TextStyle(
-                    fontSize: 18,
-                  )),
-              const SizedBox(
-                width: 10,
-              ),
-              QuantityButton(
-                tapFunction: decrementFunction,
-                buttonIcon: Icons.remove,
-              )
             ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
