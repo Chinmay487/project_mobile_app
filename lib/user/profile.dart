@@ -26,8 +26,8 @@ class Profile extends StatelessWidget {
           child: ListView(
             children: [
               UserTitle(title:"Your Addresses"),
-              const AddressCard(),
-              const AddressCard(),
+              AddressCard(),
+              AddressCard(),
               const Gap(),
               UserTitle(title:"Add New Address"),
               const AddressForm(),

@@ -1,7 +1,26 @@
 import "package:flutter/material.dart";
 
 class AddressCard extends StatelessWidget {
-  const AddressCard({Key? key}) : super(key: key);
+  // const AddressCard({Key? key}) : super(key: key);
+
+  final bool isProfile;
+
+  AddressCard({this.isProfile:true});
+
+  dynamic getDeleteButton(){
+    if(isProfile){
+      return Expanded(
+        child: IconButton(
+          onPressed: (){},
+          icon: const Icon(
+            Icons.delete,
+            color: Colors.redAccent,
+          ),
+        ),
+      );
+    }
+    return Container();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,15 +54,7 @@ class AddressCard extends StatelessWidget {
                     ),
                   )
               ),
-              Expanded(
-                child: IconButton(
-                  onPressed: (){},
-                  icon: const Icon(
-                    Icons.delete,
-                    color: Colors.redAccent,
-                  ),
-                ),
-              ),
+              getDeleteButton(),
             ],
           ),
         ),

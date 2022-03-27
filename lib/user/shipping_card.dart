@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "../button/button_outlined.dart";
 
 class ShippingCard extends StatelessWidget {
   const ShippingCard({Key? key}) : super(key: key);
@@ -34,7 +35,10 @@ class ShippingCard extends StatelessWidget {
             const SizedBox(
               height: 5.0,
             ),
-            const ViewMoreButton(),
+            ButtonOutlined(
+              displayText: "View More",
+              onTapFunction: (){},
+            ),
           ],
         ),
       ),
@@ -43,34 +47,4 @@ class ShippingCard extends StatelessWidget {
 }
 
 
-class ViewMoreButton extends StatelessWidget {
-  const ViewMoreButton({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 0),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          splashColor: const Color(0xffB3E5FC),
-          onTap: (){},
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 500),
-              child: const Text(
-                "View More",
-                style: TextStyle(
-                  color:Color(0xff1976D2),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
 
