@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import "./user_title.dart";
 import "./address_card.dart";
 import "../payment/payment_info.dart";
+import "../products/product_card.dart";
 
 class Cart extends StatelessWidget {
   const Cart({Key? key}) : super(key: key);
@@ -25,15 +26,16 @@ class Cart extends StatelessWidget {
           child: ListView(
             children: [
               UserTitle(title:"Payment Info"),
-              PaymentInfo(),
+              const PaymentInfo(),
               const SizedBox(height: 20,),
-              Divider(thickness: 1.0,),
-              SizedBox(height: 20.0,),
+              const Divider(thickness: 1.0,),
+              const SizedBox(height: 20.0,),
               UserTitle(title:"Shipping Address"),
               AddressCard(isProfile: false,),
-              Divider(thickness: 1.0,),
-              SizedBox(height: 20.0,),
+              const Divider(thickness: 1.0,),
+              const SizedBox(height: 20.0,),
               UserTitle(title:"Your Products"),
+              const CartList(),
             ],
           ),
         )
@@ -41,3 +43,29 @@ class Cart extends StatelessWidget {
     );
   }
 }
+
+class CartList extends StatelessWidget {
+  const CartList({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ProductCard(
+          isCart: true,
+        ),
+        ProductCard(
+          isCart: true,
+        ),
+        ProductCard(
+          isCart: true,
+        ),
+        ProductCard(
+          isCart: true,
+        ),
+      ],
+    );
+  }
+}
+
+

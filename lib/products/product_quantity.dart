@@ -7,9 +7,27 @@ class ProductQuantity extends StatelessWidget {
   final dynamic incrementFunction;
   final dynamic decrementFunction;
   final int? quantity;
+  final bool isCart;
 
   ProductQuantity(
-      {this.incrementFunction, this.decrementFunction, this.quantity});
+      {this.incrementFunction, this.decrementFunction, this.quantity,this.isCart:false});
+
+
+  Widget getOptions(){
+    if(isCart){
+      return Container();
+    }
+    return Container(
+      alignment: Alignment.bottomRight,
+      child: const Text(
+        "Quantity : ",
+        style: TextStyle(
+          fontSize: 17,
+          color: Color(0xff37474F),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,16 +37,7 @@ class ProductQuantity extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                alignment: Alignment.bottomRight,
-                child: const Text(
-                  "Quantity : ",
-                  style: TextStyle(
-                    fontSize: 17,
-                    color: Color(0xff37474F),
-                  ),
-                ),
-              ),
+              getOptions(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

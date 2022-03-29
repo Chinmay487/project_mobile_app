@@ -1,0 +1,36 @@
+[
+  {
+    "thumbnail":"https://storage.googleapis.com/major-project-7ee6d.appspot.com/laptop/8a0oBMgE_M/thumbnail.jpeg",
+    "price":11,
+    "title":"Laptop 2",
+    "key":"8a0oBMgE_M"
+  },
+  {
+    "thumbnail":"https://storage.googleapis.com/major-project-7ee6d.appspot.com/laptop/CHJzcfB3Sz/thumbnail.jpeg",
+    "price":10,
+    "title":"Laptop 1",
+    "key":"CHJzcfB3Sz"
+  },
+  {
+    "thumbnail":"https://storage.googleapis.com/major-project-7ee6d.appspot.com/laptop/LalJhraUrd/thumbnail.jpeg",
+    "price":15,
+    "title":"Laptop 4",
+    "key":"LalJhraUrd"
+  },
+  {
+    "thumbnail":"https://storage.googleapis.com/major-project-7ee6d.appspot.com/laptop/RPnMz5Th8A/thumbnail.jpeg",
+    "price":20,
+    "title":"Laptop 6",
+    "key":"RPnMz5Th8A"
+  },
+  {
+    "thumbnail":"https://storage.googleapis.com/major-project-7ee6d.appspot.com/laptop/YYAYnNy-xn/thumbnail.jpeg",
+    "price":44,
+    "title":"Laptop 8",
+    "key":"YYAYnNy-xn"
+  }
+]
+
+{category: laptop, title: Laptop 1, description: Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo ducimus error nihil a tenetur eaque, facere doloremque veritatis at? Quidem.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo ducimus error nihil a tenetur eaque, facere doloremque veritatis at? Quidem., price: 10, discount_price: 10, quantity: 29, images: [https://storage.googleapis.com/major-project-7ee6d.appspot.com/laptop/CHJzcfB3Sz/7QWTWQKUT1.jpeg, https://storage.googleapis.com/major-project-7ee6d.appspot.com/laptop/CHJzcfB3Sz/hlF3LG4I5l.jpeg]}
+
+

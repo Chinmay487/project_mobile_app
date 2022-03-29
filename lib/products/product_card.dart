@@ -1,45 +1,68 @@
 import "package:flutter/material.dart";
 import "../app_routes.dart";
+import "./product_quantity.dart";
+import "./detail_view.dart";
 
 class ProductCard extends StatelessWidget {
-  const ProductCard({Key? key}) : super(key: key);
+  // const ProductCard({Key? key}) : super(key: key);
+
+  final bool isCart;
+  final String? thumbnail;
+  final String? title;
+  final int? price;
+  final String? uniqueKey;
+  final String? category;
+
+  ProductCard(
+      {this.isCart = false,
+      this.thumbnail,
+      this.title,
+      this.price,
+      this.uniqueKey,
+      this.category});
+
+  Widget getCardOptions(BuildContext context) {
+    if (isCart) {
+      return const CartActions();
+    }
+    return ViewDetailButton(category: category,uniqueKey: uniqueKey,);
+  }
 
   @override
   Widget build(BuildContext context) {
-    const String _imageUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRISJ6msIu4AU9_M9ZnJVQVFmfuhfyJjEtbUm3ZK11_8IV9TV25-1uM5wHjiFNwKy99w0mR5Hk&usqp=CAc";
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.9,
       height: MediaQuery.of(context).size.height * 0.18,
       child: Card(
         elevation: 4,
-        shadowColor: Color(0xffECEFF1),
+        shadowColor: const Color(0xffECEFF1),
         child: Row(
           children: [
-            const Expanded(
+            Expanded(
               child: Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Image(
-                  image: NetworkImage(_imageUrl),
+                  image: NetworkImage(thumbnail!),
                 ),
               ),
             ),
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
+                children: [
                   Text(
-                    "iPhone 12",
-                    style: TextStyle(
+                    title!,
+                    style: const TextStyle(
                       fontSize: 18,
                       color: Color(0xff263238),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20.0,
                   ),
                   Text(
-                    "\$ 999.99",
-                    style: TextStyle(
+                    "${price!}",
+                    style: const TextStyle(
                       fontSize: 18,
                       color: Color(0xff263238),
                     ),
@@ -51,29 +74,75 @@ class ProductCard extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  InkWell(
-                      highlightColor:Color(0xffCFD8DC),
-                      splashColor: Color(0xff4FC3F7),
-                      onTap:(){
-                        Navigator.pushNamed(context,AppRoutes.detailViewRoute);
-                      },
-                      child:Padding(
-                        padding: EdgeInsets.all(10.0),
-                        child: Text(
-                          "View",
-                          style: TextStyle(
-                            color: Color(0xff42A5F5),
-                            fontSize: 15.0,
-                          ),
-                        ),
-                      )
-                  )
+                  getCardOptions(context),
                 ],
               ),
             )
           ],
         ),
       ),
+    );
+  }
+}
+
+class ViewDetailButton extends StatelessWidget {
+  // const ViewDetailButton({Key? key}) : super(key: key);
+
+  final String? category;
+  final String? uniqueKey;
+
+  ViewDetailButton({this.category,this.uniqueKey});
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      highlightColor: const Color(0xffCFD8DC),
+      splashColor: const Color(0xff4FC3F7),
+      onTap: () {
+        // Navigator.pushNamed(context, AppRoutes.detailViewRoute);
+        Navigator.push<void>(
+            context,
+            MaterialPageRoute<void>(
+              builder: (BuildContext context) => DetailView(category: category,uniqueKey:uniqueKey,)
+            )
+        );
+      },
+      child: const Padding(
+        padding: EdgeInsets.all(10.0),
+        child: Text(
+          "View",
+          style: TextStyle(
+            color: Color(0xff42A5F5),
+            fontSize: 15.0,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class CartActions extends StatelessWidget {
+  const CartActions({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        IconButton(
+          splashRadius: 20,
+          onPressed: () {},
+          icon: const Icon(
+            Icons.delete,
+            color: Colors.red,
+          ),
+        ),
+        ProductQuantity(
+          incrementFunction: () {},
+          decrementFunction: () {},
+          quantity: 1,
+          isCart: true,
+        )
+      ],
     );
   }
 }

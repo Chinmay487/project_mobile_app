@@ -6,15 +6,31 @@ import "./reviews.dart";
 import "./buy_button_group.dart";
 import "./review_form.dart";
 import "../app_routes.dart";
+import "../api/detail_view_api.dart";
+import "./more_reviews.dart";
 
 class DetailView extends StatefulWidget {
-  const DetailView({Key? key}) : super(key: key);
+  // const DetailView({Key? key}) : super(key: key);
+
+  final String? category;
+  final String? uniqueKey;
+
+  DetailView({this.category,this.uniqueKey});
 
   @override
   State<DetailView> createState() => _DetailViewState();
 }
 
 class _DetailViewState extends State<DetailView> {
+
+  String? imageUrl;
+  String? productTitle;
+  int? price;
+  int? discountPrice;
+  String? description;
+
+  bool fetchDataStatus = false;
+
   int _quantity = 1;
 
   void _increment() {
@@ -34,10 +50,130 @@ class _DetailViewState extends State<DetailView> {
     });
   }
 
+  void getData() async{
+    setState(() {
+      fetchDataStatus = true;
+    });
+    dynamic data = await getProductDetail(category: widget.category,uniqueKey: widget.uniqueKey);
+    if(data != null){
+      setState((){
+        fetchDataStatus = false;
+        imageUrl = data["images"][0];
+        productTitle = data["title"];
+        price = data["price"];
+        discountPrice = data["discount_price"];
+        description = data["description"];
+      });
+    }
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    getData();
+  }
+
+  void navigateToReviews(BuildContext context){
+    Navigator.push<void>(context,MaterialPageRoute<void>(
+        builder: (BuildContext context) => MoreReviews(category: widget.category,uniqueKey: widget.uniqueKey,)
+    ));
+  }
+
+  Widget isDataFetched(){
+    if(!fetchDataStatus){
+      return Column(
+        children: [
+          Expanded(
+            flex: 2,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 12.0,
+                horizontal: 15.0,
+              ),
+              child: ListView(
+                children: [
+                  ProductImage(imageUrl: imageUrl,),
+                  const Divider(
+                    thickness: 1.0,
+                  ),
+                  ProductInfo(
+                    price: price,
+                    discountPrice: discountPrice,
+                    description: description,
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  ProductQuantity(
+                    incrementFunction: _increment,
+                    decrementFunction: _decrement,
+                    quantity: _quantity,
+                  ),
+                  const Divider(
+                    thickness: 2.0,
+                  ),
+                  const Reviews(),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      vertical: 0,
+                      horizontal: MediaQuery.of(context).size.width * 0.3,
+                    ),
+                    child: ElevatedButton(
+                      onPressed: (){
+                        navigateToReviews(context);
+                      },
+                      child: const Text(
+                        "View More",
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const Divider(
+                    thickness: 1.0,
+                  ),
+                  const UserReviewForm(),
+                ],
+              ),
+            ),
+          ),
+          const Divider(
+            thickness: 1.0,
+          ),
+          const Expanded(
+            flex: 0,
+            child: BuyButtonGroup(),
+          ),
+        ],
+      );
+    }
+
+
+
+      return Container(
+        margin : const EdgeInsets.symmetric(vertical: 20,horizontal: 0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Text(
+                "Please Wait",
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
+            SizedBox(width:25.0,),
+            CircularProgressIndicator()
+          ],
+        ),
+      );
+
+  }
+
+
   @override
   Widget build(BuildContext context) {
-    const String _imageUrl =
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRISJ6msIu4AU9_M9ZnJVQVFmfuhfyJjEtbUm3ZK11_8IV9TV25-1uM5wHjiFNwKy99w0mR5Hk&usqp=CAc";
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xffECEFF1),
@@ -53,69 +189,7 @@ class _DetailViewState extends State<DetailView> {
       body: SafeArea(
         child: Container(
           margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 0),
-          child: Column(
-            children: [
-              Expanded(
-                flex: 2,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 12.0,
-                    horizontal: 15.0,
-                  ),
-                  child: ListView(
-                    children: [
-                      const ProductImage(),
-                      const Divider(
-                        thickness: 1.0,
-                      ),
-                      const ProductInfo(),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      ProductQuantity(
-                        incrementFunction: _increment,
-                        decrementFunction: _decrement,
-                        quantity: _quantity,
-                      ),
-                      const Divider(
-                        thickness: 2.0,
-                      ),
-                      const Reviews(),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            vertical: 0,
-                            horizontal:
-                                MediaQuery.of(context).size.width * 0.3,
-                        ),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context,AppRoutes.moreReviewsRoute);
-                          },
-                          child: const Text(
-                              "View More",
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      const Divider(
-                        thickness: 1.0,
-                      ),
-                      const UserReviewForm(),
-                    ],
-                  ),
-                ),
-              ),
-              const Divider(
-                thickness: 1.0,
-              ),
-              Expanded(
-                flex: 0,
-                  child: const BuyButtonGroup(),
-              ),
-            ],
-          ),
+          child: isDataFetched(),
         ),
       ),
     );

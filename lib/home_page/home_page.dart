@@ -21,7 +21,7 @@ class HomePage extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        actions: [
+        actions: const [
           // LoginActionButton(),
           AvatarMenu(),
         ],
@@ -31,11 +31,11 @@ class HomePage extends StatelessWidget {
       body:  SafeArea(
         child: ListView(
           children: [
-            ProductList(category: "Laptop",),
-            ProductList(category: "iPhone",),
-            ProductList(category: "Camera",),
-            ProductList(category: "Clock",),
-            ProductList(category: "Watch",)
+            ProductList(category: "laptop",),
+            // ProductList(category: "iPhone",),
+            // ProductList(category: "Camera",),
+            // ProductList(category: "Clock",),
+            // ProductList(category: "Watch",)
           ],
         ),
       ),

@@ -20,10 +20,10 @@ class Root extends StatelessWidget {
       initialRoute: "/",
       routes:{
         AppRoutes.homePageRoute : (context) => const HomePage(),
-        AppRoutes.detailViewRoute : (context) => const DetailView(),
+        // AppRoutes.detailViewRoute : (context) => DetailView(),
         AppRoutes.cartPageroute : (context) => const Cart(),
         AppRoutes.profilePageroute : (context) => const Profile(),
-        AppRoutes.moreReviewsRoute : (context) => const MoreReviews(),
+        // AppRoutes.moreReviewsRoute : (context) => const MoreReviews(),
       },
     );
   }

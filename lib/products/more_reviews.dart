@@ -3,7 +3,12 @@ import "./review_card.dart";
 
 
 class MoreReviews extends StatelessWidget {
-  const MoreReviews({Key? key}) : super(key: key);
+  // const MoreReviews({Key? key}) : super(key: key);
+
+  final String? category;
+  final String? uniqueKey;
+
+  MoreReviews({this.category,this.uniqueKey});
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +32,9 @@ class MoreReviews extends StatelessWidget {
                   horizontal: 0,
               ),
               alignment: Alignment.center,
-              child: const Text(
-                  "Product Reviews",
-                style: TextStyle(
+              child: Text(
+                  "${category!}",
+                style: const TextStyle(
                   fontSize: 20,
                 ),
               ),
