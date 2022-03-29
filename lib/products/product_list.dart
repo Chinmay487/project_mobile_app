@@ -2,6 +2,7 @@ import 'package:basic_utils/basic_utils.dart';
 import "package:flutter/material.dart";
 import "./product_card.dart";
 import "../api/home_page_api.dart";
+import "../category/category_view.dart";
 
 class ProductList extends StatefulWidget {
   // const ProductList({Key? key}) : super(key: key);
@@ -75,12 +76,24 @@ class _ProductListState extends State<ProductList> {
               backgroundColor:
               MaterialStateProperty.all<Color>(const Color(0xff2196F3)),
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) => CategoryView(
+                    category: widget.category,
+                    displayTitle:StringUtils.capitalize(widget.category!),
+                  ),
+                ),
+              );
+            },
             child: const Text(
               "View More",
-              style: TextStyle(color: Color(0xffFAFAFA)),
+              style: TextStyle(
+                color: Color(0xffFAFAFA),
+              ),
             ),
-          )
+          ),
         ],
       );
     } else {

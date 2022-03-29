@@ -25,7 +25,11 @@ class ProductCard extends StatelessWidget {
     if (isCart) {
       return const CartActions();
     }
-    return ViewDetailButton(category: category,uniqueKey: uniqueKey,productTitle: title!,);
+    return ViewDetailButton(
+      category: category,
+      uniqueKey: uniqueKey,
+      productTitle: title!,
+    );
   }
 
   @override
@@ -40,7 +44,7 @@ class ProductCard extends StatelessWidget {
           children: [
             Expanded(
               child: Padding(
-                padding: EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
                 child: Image(
                   image: NetworkImage(thumbnail!),
                 ),
@@ -77,7 +81,7 @@ class ProductCard extends StatelessWidget {
                   getCardOptions(context),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -92,7 +96,7 @@ class ViewDetailButton extends StatelessWidget {
   final String? uniqueKey;
   final String? productTitle;
 
-  ViewDetailButton({this.category,this.uniqueKey,this.productTitle});
+  ViewDetailButton({this.category, this.uniqueKey, this.productTitle});
 
   @override
   Widget build(BuildContext context) {
@@ -102,10 +106,14 @@ class ViewDetailButton extends StatelessWidget {
       onTap: () {
         // Navigator.pushNamed(context, AppRoutes.detailViewRoute);
         Navigator.push<void>(
-            context,
-            MaterialPageRoute<void>(
-              builder: (BuildContext context) => DetailView(category: category,uniqueKey:uniqueKey,productTitle:productTitle! ,)
-            )
+          context,
+          MaterialPageRoute<void>(
+            builder: (BuildContext context) => DetailView(
+              category: category,
+              uniqueKey: uniqueKey,
+              productTitle: productTitle!,
+            ),
+          ),
         );
       },
       child: const Padding(

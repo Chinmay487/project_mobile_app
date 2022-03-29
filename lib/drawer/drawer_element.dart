@@ -5,19 +5,20 @@ class DrawerElement extends StatelessWidget {
   // const DrawerElement({Key? key}) : super(key: key);
 
   final String? category;
+  final dynamic onTapFunction;
   // final String?
 
-  DrawerElement({this.category:""});
+  DrawerElement({this.category="",this.onTapFunction});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10,horizontal: 0),
+      margin: const EdgeInsets.symmetric(vertical: 10,horizontal: 0),
       child: GestureDetector(
-        onTap: (){},
+        onTap: onTapFunction,
         child:Text(
             category!,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 16,
           ),
         ),

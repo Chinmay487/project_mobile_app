@@ -16,14 +16,13 @@ class DetailView extends StatefulWidget {
   final String? uniqueKey;
   final String? productTitle;
 
-  DetailView({this.category,this.uniqueKey,this.productTitle});
+  DetailView({this.category, this.uniqueKey, this.productTitle});
 
   @override
   State<DetailView> createState() => _DetailViewState();
 }
 
 class _DetailViewState extends State<DetailView> {
-
   String? imageUrl;
   String? productTitle;
   int? price;
@@ -51,13 +50,14 @@ class _DetailViewState extends State<DetailView> {
     });
   }
 
-  void getData() async{
+  void getData() async {
     setState(() {
       fetchDataStatus = true;
     });
-    dynamic data = await getProductDetail(category: widget.category,uniqueKey: widget.uniqueKey);
-    if(data != null){
-      setState((){
+    dynamic data = await getProductDetail(
+        category: widget.category, uniqueKey: widget.uniqueKey);
+    if (data != null) {
+      setState(() {
         fetchDataStatus = false;
         imageUrl = data["images"][0];
         productTitle = data["title"];
@@ -69,19 +69,25 @@ class _DetailViewState extends State<DetailView> {
   }
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     getData();
   }
 
-  void navigateToReviews(BuildContext context){
-    Navigator.push<void>(context,MaterialPageRoute<void>(
-        builder: (BuildContext context) => MoreReviews(category: widget.category,uniqueKey: widget.uniqueKey,)
-    ));
+  void navigateToReviews(BuildContext context) {
+    Navigator.push<void>(
+      context,
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) => MoreReviews(
+          category: widget.category,
+          uniqueKey: widget.uniqueKey,
+        ),
+      ),
+    );
   }
 
-  Widget isDataFetched(){
-    if(!fetchDataStatus){
+  Widget isDataFetched() {
+    if (!fetchDataStatus) {
       return Column(
         children: [
           Expanded(
@@ -93,7 +99,9 @@ class _DetailViewState extends State<DetailView> {
               ),
               child: ListView(
                 children: [
-                  ProductImage(imageUrl: imageUrl,),
+                  ProductImage(
+                    imageUrl: imageUrl,
+                  ),
                   const Divider(
                     thickness: 1.0,
                   ),
@@ -120,7 +128,7 @@ class _DetailViewState extends State<DetailView> {
                       horizontal: MediaQuery.of(context).size.width * 0.3,
                     ),
                     child: ElevatedButton(
-                      onPressed: (){
+                      onPressed: () {
                         navigateToReviews(context);
                       },
                       child: const Text(
@@ -150,37 +158,35 @@ class _DetailViewState extends State<DetailView> {
       );
     }
 
-
-
-      return Container(
-        margin : const EdgeInsets.symmetric(vertical: 20,horizontal: 0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Text(
-                "Please Wait",
-              style: TextStyle(
-                fontSize: 20,
-              ),
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const [
+          Text(
+            "Please Wait",
+            style: TextStyle(
+              fontSize: 20,
             ),
-            SizedBox(width:25.0,),
-            CircularProgressIndicator()
-          ],
-        ),
-      );
-
+          ),
+          SizedBox(
+            width: 25.0,
+          ),
+          CircularProgressIndicator()
+        ],
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xffECEFF1),
         iconTheme: const IconThemeData(color: Color(0xff263238)),
         title: Text(
           widget.productTitle!,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.bold,
           ),
