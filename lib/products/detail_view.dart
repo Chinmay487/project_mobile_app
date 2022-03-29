@@ -14,8 +14,9 @@ class DetailView extends StatefulWidget {
 
   final String? category;
   final String? uniqueKey;
+  final String? productTitle;
 
-  DetailView({this.category,this.uniqueKey});
+  DetailView({this.category,this.uniqueKey,this.productTitle});
 
   @override
   State<DetailView> createState() => _DetailViewState();
@@ -170,7 +171,6 @@ class _DetailViewState extends State<DetailView> {
 
   }
 
-
   @override
   Widget build(BuildContext context) {
 
@@ -178,8 +178,8 @@ class _DetailViewState extends State<DetailView> {
       appBar: AppBar(
         backgroundColor: const Color(0xffECEFF1),
         iconTheme: const IconThemeData(color: Color(0xff263238)),
-        title: const Text(
-          "iPhone 13",
+        title: Text(
+          widget.productTitle!,
           style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.bold,

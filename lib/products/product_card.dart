@@ -25,7 +25,7 @@ class ProductCard extends StatelessWidget {
     if (isCart) {
       return const CartActions();
     }
-    return ViewDetailButton(category: category,uniqueKey: uniqueKey,);
+    return ViewDetailButton(category: category,uniqueKey: uniqueKey,productTitle: title!,);
   }
 
   @override
@@ -61,7 +61,7 @@ class ProductCard extends StatelessWidget {
                     height: 20.0,
                   ),
                   Text(
-                    "${price!}",
+                    " \u{20B9} ${price!}",
                     style: const TextStyle(
                       fontSize: 18,
                       color: Color(0xff263238),
@@ -90,8 +90,9 @@ class ViewDetailButton extends StatelessWidget {
 
   final String? category;
   final String? uniqueKey;
+  final String? productTitle;
 
-  ViewDetailButton({this.category,this.uniqueKey});
+  ViewDetailButton({this.category,this.uniqueKey,this.productTitle});
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +104,7 @@ class ViewDetailButton extends StatelessWidget {
         Navigator.push<void>(
             context,
             MaterialPageRoute<void>(
-              builder: (BuildContext context) => DetailView(category: category,uniqueKey:uniqueKey,)
+              builder: (BuildContext context) => DetailView(category: category,uniqueKey:uniqueKey,productTitle:productTitle! ,)
             )
         );
       },

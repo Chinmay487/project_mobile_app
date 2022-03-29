@@ -2,11 +2,14 @@ import "package:flutter/material.dart";
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class UserRating extends StatelessWidget {
-  const UserRating({Key? key}) : super(key: key);
+  // const UserRating({Key? key}) : super(key: key);
+  final double? rating;
+  UserRating({this.rating});
+
   @override
   Widget build(BuildContext context) {
     return RatingBar.builder(
-      initialRating: 3,
+      initialRating:rating!,
       itemSize: 20,
       ignoreGestures:true,
       // minRating: 1,
@@ -43,7 +46,7 @@ class UserRatingInput extends StatelessWidget {
         Icons.star,
         color: Colors.amber,
       ),
-      onRatingUpdate: (rating) {},
+      onRatingUpdate: (value){},
     );
   }
 }

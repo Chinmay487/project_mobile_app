@@ -1,14 +1,91 @@
 import "package:flutter/material.dart";
 import "./review_card.dart";
+import "../api/detail_view_api.dart";
 
 
-class MoreReviews extends StatelessWidget {
+class MoreReviews extends StatefulWidget {
   // const MoreReviews({Key? key}) : super(key: key);
 
   final String? category;
   final String? uniqueKey;
 
   MoreReviews({this.category,this.uniqueKey});
+
+  @override
+  State<MoreReviews> createState() => _MoreReviewsState();
+}
+
+class _MoreReviewsState extends State<MoreReviews> {
+
+  List<Widget> reviewsList = [];
+
+  bool dataFetchStatus = false;
+
+  void fetchData() async{
+    setState(() {
+      dataFetchStatus = true;
+    });
+    List<Widget> reviews = [];
+    var data = await getProductReviews(category: widget.category,uniqueKey: widget.uniqueKey);
+    if(data.length > 0){
+      for(var element in data){
+        reviews.add(
+            ReviewCard(
+              rating: element["rating"] + 0.0,
+              reviewTitle: element["title"],
+              description: element["description"],
+            )
+        );
+      }
+    } else {
+      reviews.add(
+         const Center(
+           child: Text(
+               "No Reviews Available",
+             style: TextStyle(
+               fontSize: 20,
+             ),
+           ),
+           ),
+      );
+    }
+    setState(() {
+      reviewsList = reviews;
+      dataFetchStatus = false;
+    });
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    fetchData();
+  }
+
+  Widget isDataFetched(){
+    if(!dataFetchStatus){
+      return Column(
+        children: reviewsList,
+      );
+    }
+    return Center(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const [
+          Text(
+              "Please Wait",
+            style: TextStyle(
+              fontSize: 20,
+            ),
+          ),
+          SizedBox(width: 20,),
+          CircularProgressIndicator()
+        ],
+      ),
+    );
+
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -33,23 +110,24 @@ class MoreReviews extends StatelessWidget {
               ),
               alignment: Alignment.center,
               child: Text(
-                  "${category!}",
+                  widget.category!,
                 style: const TextStyle(
                   fontSize: 20,
                 ),
               ),
             ),
+            isDataFetched(),
             // SizedBox(height: 20,),
-            ReviewCard(),
-            ReviewCard(),
-            ReviewCard(),
-            ReviewCard(),
-            ReviewCard(),
-            ReviewCard(),
-            ReviewCard(),
-            ReviewCard(),
-            ReviewCard(),
-            ReviewCard(),
+            // ReviewCard(),
+            // ReviewCard(),
+            // ReviewCard(),
+            // ReviewCard(),
+            // ReviewCard(),
+            // ReviewCard(),
+            // ReviewCard(),
+            // ReviewCard(),
+            // ReviewCard(),
+            // ReviewCard(),
           ],
         ),
       ),
