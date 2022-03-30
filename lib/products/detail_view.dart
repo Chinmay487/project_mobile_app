@@ -5,7 +5,6 @@ import "./product_quantity.dart";
 import "./reviews.dart";
 import "./buy_button_group.dart";
 import "./review_form.dart";
-import "../app_routes.dart";
 import "../api/detail_view_api.dart";
 import "./more_reviews.dart";
 

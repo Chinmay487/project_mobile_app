@@ -16,17 +16,18 @@ class CategoryView extends StatefulWidget {
 }
 
 class _CategoryViewState extends State<CategoryView> {
-  int selectedPageNumber = 1;
+  int selectedPageNumber = 0;
   int numberOfPages = 1;
   List<Widget> listOfProducts = [];
   bool fetchDataStatus = false;
+  bool noProducts = false;
 
 
   void fetchData() async {
     setState(() {
       fetchDataStatus = true;
     });
-    var data = await getProductList(category: widget.category,pageNumber: selectedPageNumber);
+    var data = await getProductList(category: widget.category,pageNumber: selectedPageNumber + 1);
     int totalNumberOfPages = 0;
     List<Widget> categoryList = [];
     if(data != null && data["product_list"].length > 0 ){
@@ -42,16 +43,10 @@ class _CategoryViewState extends State<CategoryView> {
           )
         );
       }
-      categoryList.add(
-          NumberPaginator(
-            initialPage: 0,
-            numberPages: numberOfPages,
-            onPageChange: (int index) {
-              onPageNumberChange(index);
-            },
-          ),
-      );
     } else {
+      setState(() {
+        noProducts = true;
+      });
       categoryList.add(
         const Center(
           child: Text(
@@ -79,9 +74,22 @@ class _CategoryViewState extends State<CategoryView> {
 
   void onPageNumberChange(int index){
     setState(() {
-      selectedPageNumber = index + 1;
+      selectedPageNumber = index;
     });
     fetchData();
+  }
+
+  dynamic getPaginator(){
+    if(listOfProducts.isNotEmpty && !noProducts){
+      return NumberPaginator(
+        initialPage: 0,
+        numberPages: numberOfPages,
+        onPageChange: (int index) {
+          onPageNumberChange(index);
+        },
+      );
+    }
+    return Container();
   }
 
   Widget isDataFetched(){
@@ -99,6 +107,7 @@ class _CategoryViewState extends State<CategoryView> {
             ),
           ),
           ...listOfProducts,
+          getPaginator(),
         ],
       );
     }

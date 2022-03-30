@@ -5,11 +5,14 @@ import "./products/detail_view.dart";
 import "./user/cart.dart";
 import "./user/profile.dart";
 import "./products/more_reviews.dart";
+import "./authentication/login_page.dart";
+
 
 void main(){
   return runApp(const Root());
 }
 
+// ChangeNotifierProvider class
 
 class Root extends StatelessWidget {
   const Root({Key? key}) : super(key: key);
@@ -24,6 +27,7 @@ class Root extends StatelessWidget {
         AppRoutes.cartPageroute : (context) => const Cart(),
         AppRoutes.profilePageroute : (context) => const Profile(),
         // AppRoutes.moreReviewsRoute : (context) => const MoreReviews(),
+        AppRoutes.loginPageRoute : (context) => const LoginPage(),
       },
     );
   }

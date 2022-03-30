@@ -9,7 +9,9 @@ class LoginAction extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 0),
       child: GestureDetector(
-        onTap: () {},
+        onTap: () {
+          Navigator.pushNamed(context,"/login");
+        },
         child: const Text(
           "Login",
           style: TextStyle(fontSize: 16, color: Colors.blueGrey),

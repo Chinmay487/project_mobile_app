@@ -73,7 +73,7 @@ class MyDrawer extends StatelessWidget {
               Column(
                 // mainAxisAlignment: MainAxisAlignment.start,
                 children: const [
-                  // LoginAction(),
+                  LoginAction(),
                   ProfileAction(),
                   CartAction(),
                   LogoutAction(),
