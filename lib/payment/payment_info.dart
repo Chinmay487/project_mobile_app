@@ -48,19 +48,19 @@ class PaymentInfo extends StatelessWidget {
                 ),
                 BillingInfo(
                   label: "Subtotal",
-                  displayNumber: 100,
+                  displayNumber: 0,
                 ),
                 BillingInfo(
                   label: "Shipping Charges",
-                  displayNumber: 50,
+                  displayNumber: 0,
                 ),
                 BillingInfo(
                   label: "Total",
-                  displayNumber: 150,
+                  displayNumber: 0,
                 ),
                 ButtonOutlined(
                   displayText: "Order Now",
-                  onTapFunction: () {},
+                  onTapFunction: null,
                 ),
               ],
             ),

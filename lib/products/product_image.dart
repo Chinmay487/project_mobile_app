@@ -13,9 +13,7 @@ class ProductImage extends StatelessWidget {
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.35,
       // flex: 2,
-      child: Image(
-        image: NetworkImage(imageUrl!),
-      ),
+      child: Image.network(imageUrl!),
     );
   }
 }

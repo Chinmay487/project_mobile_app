@@ -1,5 +1,7 @@
 import "package:flutter/material.dart";
 import "../app_routes.dart";
+import "package:provider/provider.dart";
+import "../authentication/google_app_auth.dart";
 
 class LoginAction extends StatelessWidget {
   const LoginAction({Key? key}) : super(key: key);
@@ -10,7 +12,9 @@ class LoginAction extends StatelessWidget {
       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 0),
       child: GestureDetector(
         onTap: () {
-          Navigator.pushNamed(context,"/login");
+          final provider = Provider.of<GoogleSignInProvider>(context,listen: false);
+          provider.GoogleLogin();
+          // Navigator.pushNamed(context,"/login");
         },
         child: const Text(
           "Login",

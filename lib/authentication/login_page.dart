@@ -1,5 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
+import 'package:flutter/services.dart';
+import "package:provider/provider.dart";
+
+import 'google_app_auth.dart';
 
 
 class LoginPage extends StatefulWidget {
@@ -31,7 +35,10 @@ class _LoginPageState extends State<LoginPage> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 0,horizontal: 30),
               child: ElevatedButton(
-                  onPressed: (){},
+                  onPressed: (){
+                    final provider = Provider.of<GoogleSignInProvider>(context,listen: false);
+                    provider.GoogleLogin();
+                  },
                   child:Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
@@ -70,14 +77,16 @@ class _LoginPageState extends State<LoginPage> {
                 child: ListView(
                   children: [
                     TextFormField(
+                      keyboardType:const TextInputType.numberWithOptions(),
                       decoration: const InputDecoration(
-                        hintText: "Phone Number",
+                        hintText: "9876543210",
                         labelText: "Phone Number",
                       ),
                     ),
                     TextFormField(
+                      keyboardType:const TextInputType.numberWithOptions(),
                       decoration: const InputDecoration(
-                        hintText: "OTP",
+                        hintText: "123456",
                         labelText: "OTP",
                       ),
                     ),

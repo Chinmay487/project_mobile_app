@@ -22,26 +22,24 @@ class _CategoryViewState extends State<CategoryView> {
   bool fetchDataStatus = false;
   bool noProducts = false;
 
-
-  void fetchData() async {
+  void fetchData({bool isInit = true}) async {
     setState(() {
       fetchDataStatus = true;
     });
-    var data = await getProductList(category: widget.category,pageNumber: selectedPageNumber + 1);
+    var data = await getProductList(
+        category: widget.category, pageNumber: selectedPageNumber + 1);
     int totalNumberOfPages = 0;
     List<Widget> categoryList = [];
-    if(data != null && data["product_list"].length > 0 ){
+    if (data != null && data["product_list"].length > 0) {
       totalNumberOfPages = data["number_of_pages"];
-      for(var element in data["product_list"]){
-        categoryList.add(
-          ProductCard(
-            title: element["title"],
-            thumbnail: element["thumbnail"],
-            price: element["price"],
-            uniqueKey: element["key"],
-            category: widget.category,
-          )
-        );
+      for (var element in data["product_list"]) {
+        categoryList.add(ProductCard(
+          title: element["title"],
+          thumbnail: element["thumbnail"],
+          price: element["price"],
+          uniqueKey: element["key"],
+          category: widget.category,
+        ));
       }
     } else {
       setState(() {
@@ -50,7 +48,7 @@ class _CategoryViewState extends State<CategoryView> {
       categoryList.add(
         const Center(
           child: Text(
-              "Nothing Here",
+            "Nothing Here",
             style: TextStyle(
               fontSize: 25,
             ),
@@ -59,46 +57,37 @@ class _CategoryViewState extends State<CategoryView> {
       );
     }
     setState(() {
-      numberOfPages = totalNumberOfPages;
       listOfProducts = categoryList;
       fetchDataStatus = false;
+      if (isInit) {
+        numberOfPages = totalNumberOfPages;
+      }
     });
   }
-
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
-    fetchData();
+    fetchData(isInit: true);
   }
 
-  void onPageNumberChange(int index){
-    setState(() {
-      selectedPageNumber = index;
-    });
-    fetchData();
-  }
-
-  dynamic getPaginator(){
-    if(listOfProducts.isNotEmpty && !noProducts){
-      return NumberPaginator(
-        initialPage: 0,
-        numberPages: numberOfPages,
-        onPageChange: (int index) {
-          onPageNumberChange(index);
-        },
-      );
+  void onPageNumberChange(int index) {
+    if (selectedPageNumber != index) {
+      setState(() {
+        selectedPageNumber = index;
+      });
+      fetchData(isInit: false);
     }
-    return Container();
   }
 
-  Widget isDataFetched(){
-    if(!fetchDataStatus){
+  Widget isDataFetched() {
+    if (!fetchDataStatus) {
       return ListView(
+        cacheExtent: 9999,
         children: [
           Container(
             alignment: Alignment.center,
-            margin: const EdgeInsets.symmetric(vertical: 20,horizontal: 0),
+            margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 0),
             child: Text(
               widget.displayTitle!,
               style: const TextStyle(
@@ -107,7 +96,6 @@ class _CategoryViewState extends State<CategoryView> {
             ),
           ),
           ...listOfProducts,
-          getPaginator(),
         ],
       );
     }
@@ -116,15 +104,30 @@ class _CategoryViewState extends State<CategoryView> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: const [
           Text(
-              "Please Wait",
+            "Please Wait",
             style: TextStyle(
               fontSize: 25,
             ),
           ),
-          SizedBox(width: 20,),
+          SizedBox(
+            width: 20,
+          ),
           CircularProgressIndicator(),
         ],
       ),
+    );
+  }
+
+  Widget getPaginator() {
+    if(noProducts){
+      return Container();
+    }
+    return NumberPaginator(
+      initialPage: 0,
+      numberPages: numberOfPages,
+      onPageChange: (int index) {
+        onPageNumberChange(index);
+      },
     );
   }
 
@@ -143,7 +146,14 @@ class _CategoryViewState extends State<CategoryView> {
         ),
       ),
       body: SafeArea(
-        child: isDataFetched(),
+        child: Column(
+          children: [
+            Expanded(
+                child: isDataFetched(),
+            ),
+            getPaginator(),
+          ],
+        ),
       ),
     );
   }

@@ -30,6 +30,7 @@ class HomePage extends StatelessWidget {
       drawer: const MyDrawer(),
       body:  SafeArea(
         child: ListView(
+          cacheExtent: 9999,
           children: [
             ProductList(category: "laptop",),
             // ProductList(category: "iPhone",),

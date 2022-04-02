@@ -1,14 +1,17 @@
 import "package:flutter/material.dart";
+import 'package:provider/provider.dart';
 import "./home_page/home_page.dart";
 import "./app_routes.dart";
-import "./products/detail_view.dart";
 import "./user/cart.dart";
 import "./user/profile.dart";
-import "./products/more_reviews.dart";
 import "./authentication/login_page.dart";
+import "package:firebase_core/firebase_core.dart";
+import "./authentication/google_app_auth.dart";
 
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
 
-void main(){
   return runApp(const Root());
 }
 
@@ -19,16 +22,19 @@ class Root extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      initialRoute: "/",
-      routes:{
-        AppRoutes.homePageRoute : (context) => const HomePage(),
-        // AppRoutes.detailViewRoute : (context) => DetailView(),
-        AppRoutes.cartPageroute : (context) => const Cart(),
-        AppRoutes.profilePageroute : (context) => const Profile(),
-        // AppRoutes.moreReviewsRoute : (context) => const MoreReviews(),
-        AppRoutes.loginPageRoute : (context) => const LoginPage(),
-      },
+    return ChangeNotifierProvider(
+      create : (context) => GoogleSignInProvider(),
+      child: MaterialApp(
+        initialRoute: "/",
+        routes:{
+          AppRoutes.homePageRoute : (context) => const HomePage(),
+          // AppRoutes.detailViewRoute : (context) => DetailView(),
+          AppRoutes.cartPageroute : (context) => const Cart(),
+          AppRoutes.profilePageroute : (context) => const Profile(),
+          // AppRoutes.moreReviewsRoute : (context) => const MoreReviews(),
+          AppRoutes.loginPageRoute : (context) => const LoginPage(),
+        },
+      ),
     );
   }
 }

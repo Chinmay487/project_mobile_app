@@ -35,7 +35,13 @@ class Cart extends StatelessWidget {
               const Divider(thickness: 1.0,),
               const SizedBox(height: 20.0,),
               UserTitle(title:"Your Products"),
-              const CartList(),
+              // const CartList(),
+              const SizedBox(height: 30.0,),
+              const Center(
+                child: Text(
+                  "Nothing Added to cart",
+                ),
+              )
             ],
           ),
         )
