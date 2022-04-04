@@ -8,7 +8,7 @@ import "./authentication/login_page.dart";
 import "package:firebase_core/firebase_core.dart";
 import "./authentication/google_app_auth.dart";
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
@@ -22,17 +22,22 @@ class Root extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // String idToken = ;
     return ChangeNotifierProvider(
-      create : (context) => GoogleSignInProvider(),
+      create: (context) => GoogleSignInProvider(),
       child: MaterialApp(
         initialRoute: "/",
-        routes:{
-          AppRoutes.homePageRoute : (context) => const HomePage(),
+        routes: {
+          AppRoutes.homePageRoute: (context) => const HomePage(),
           // AppRoutes.detailViewRoute : (context) => DetailView(),
-          AppRoutes.cartPageroute : (context) => const Cart(),
-          AppRoutes.profilePageroute : (context) => const Profile(),
+          AppRoutes.cartPageroute: (context) => Cart(
+                idToken:
+                    Provider.of<GoogleSignInProvider>(context, listen: true)
+                        .idToken,
+              ),
+          AppRoutes.profilePageroute: (context) => const Profile(),
           // AppRoutes.moreReviewsRoute : (context) => const MoreReviews(),
-          AppRoutes.loginPageRoute : (context) => const LoginPage(),
+          AppRoutes.loginPageRoute: (context) => const LoginPage(),
         },
       ),
     );

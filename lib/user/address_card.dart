@@ -32,15 +32,15 @@ class AddressCard extends StatelessWidget {
       child: SizedBox(
         // width: MediaQuery.of(context).size.width * 0.5,
         child: Card(
-          color: Color(0xffEEEEEE),
+          color: const Color(0xffEEEEEE),
           elevation: 5,
-          shadowColor: Color(0xffCFD8DC),
+          shadowColor: const Color(0xffCFD8DC),
           child: Row(
             children: [
               Expanded(
                   flex: 3,
                   child:Padding(
-                    padding: EdgeInsets.all(15.0),
+                    padding: const EdgeInsets.all(15.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: const [

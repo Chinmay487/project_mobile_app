@@ -24,15 +24,17 @@ class _ProductListState extends State<ProductList> {
     });
     var data = await getHomePageCategories(category: widget.category);
     List<Widget> productList = [];
+    const url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRISJ6msIu4AU9_M9ZnJVQVFmfuhfyJjEtbUm3ZK11_8IV9TV25-1uM5wHjiFNwKy99w0mR5Hk&usqp=CAc";
     if(data != null){
       for(var element in data){
         productList.add(
             ProductCard(
               title: element["title"],
-              thumbnail: element["thumbnail"],
+              thumbnail: url,
               price: element["price"],
               uniqueKey: element["key"],
               category: widget.category,
+              onQuantityChange: null,
             )
         );
       }

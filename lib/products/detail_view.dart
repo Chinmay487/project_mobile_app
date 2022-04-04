@@ -7,6 +7,9 @@ import "./buy_button_group.dart";
 import "./review_form.dart";
 import "../api/detail_view_api.dart";
 import "./more_reviews.dart";
+import "package:provider/provider.dart";
+import "../authentication/google_app_auth.dart";
+import "../user/cart.dart";
 
 class DetailView extends StatefulWidget {
   // const DetailView({Key? key}) : super(key: key);
@@ -29,25 +32,26 @@ class _DetailViewState extends State<DetailView> {
   String? description;
 
   bool fetchDataStatus = false;
+  bool addProductToCartStatus = false;
 
   int _quantity = 1;
 
-  void _increment() {
-    setState(() {
-      _quantity += 1;
-    });
-  }
-
-  void _decrement() {
-    setState(() {
-      if (_quantity > 0) {
-        _quantity -= 1;
-      }
-      if (_quantity == 0) {
-        _quantity = 1;
-      }
-    });
-  }
+  // void _increment() {
+  //   setState(() {
+  //     _quantity += 1;
+  //   });
+  // }
+  //
+  // void _decrement() {
+  //   setState(() {
+  //     if (_quantity > 0) {
+  //       _quantity -= 1;
+  //     }
+  //     if (_quantity == 0) {
+  //       _quantity = 1;
+  //     }
+  //   });
+  // }
 
   void getData() async {
     setState(() {
@@ -55,10 +59,12 @@ class _DetailViewState extends State<DetailView> {
     });
     dynamic data = await getProductDetail(
         category: widget.category, uniqueKey: widget.uniqueKey);
+    const url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRISJ6msIu4AU9_M9ZnJVQVFmfuhfyJjEtbUm3ZK11_8IV9TV25-1uM5wHjiFNwKy99w0mR5Hk&usqp=CAc";
+
     if (data != null) {
       setState(() {
         fetchDataStatus = false;
-        imageUrl = data["images"][0];
+        imageUrl = url;  //data["images"][0];
         productTitle = data["title"];
         price = data["price"];
         discountPrice = data["discount_price"];
@@ -85,7 +91,9 @@ class _DetailViewState extends State<DetailView> {
     );
   }
 
-  Widget isDataFetched() {
+
+
+  Widget isDataFetched(idToken) {
     if (!fetchDataStatus) {
       return Column(
         children: [
@@ -112,10 +120,19 @@ class _DetailViewState extends State<DetailView> {
                   const SizedBox(
                     height: 20,
                   ),
-                  ProductQuantity(
-                    incrementFunction: _increment,
-                    decrementFunction: _decrement,
-                    quantity: _quantity,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text("Select Quantity : "),
+                      QuantityList(
+                        selectedQuantity: _quantity,
+                        onQtyChangeFunction:(value){
+                          setState(() {
+                            _quantity = value;
+                          });
+                        } ,
+                      ),
+                    ],
                   ),
                   const Divider(
                     thickness: 2.0,
@@ -149,9 +166,52 @@ class _DetailViewState extends State<DetailView> {
           const Divider(
             thickness: 1.0,
           ),
-          const Expanded(
+          Expanded(
             flex: 0,
-            child: BuyButtonGroup(),
+            child: idToken == null
+                ? Container(
+                    alignment: Alignment.center,
+                    child: const Text("Please Login To Purchase"),
+                  )
+                : addProductToCartStatus
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Text("Please Wait..."),
+                          SizedBox(
+                            width: 15.0,
+                          ),
+                          CircularProgressIndicator()
+                        ],
+                      )
+                    : BuyButtonGroup(
+                        buyNow: () async {
+                          setState(() {
+                            addProductToCartStatus = true;
+                          });
+                          final result = await addProductToCart(
+                            idToken: idToken,
+                            category: widget.category,
+                            productKey: widget.uniqueKey,
+                            quantity: _quantity,
+                            price: discountPrice,
+                          );
+                          setState(() {
+                            _quantity = 1;
+                            addProductToCartStatus = false;
+                          });
+                          if(result != null){
+                            Navigator.push(context, MaterialPageRoute(
+                              builder: (BuildContext context) => Cart(idToken:idToken),
+                            ),
+                            );
+                          } else {
+                            var provider = Provider.of<GoogleSignInProvider>(context,listen: false);
+                            provider.logoutUser();
+                          }
+                        },
+                        addToCart: null,
+                      ),
           ),
         ],
       );
@@ -179,6 +239,9 @@ class _DetailViewState extends State<DetailView> {
 
   @override
   Widget build(BuildContext context) {
+    var idToken =
+        Provider.of<GoogleSignInProvider>(context, listen: true).idToken;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xffECEFF1),
@@ -191,10 +254,11 @@ class _DetailViewState extends State<DetailView> {
           ),
         ),
       ),
+      // drawer: const MyDrawer(),
       body: SafeArea(
         child: Container(
           margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 0),
-          child: isDataFetched(),
+          child: isDataFetched(idToken),
         ),
       ),
     );

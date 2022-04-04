@@ -12,7 +12,6 @@ class ProductQuantity extends StatelessWidget {
   ProductQuantity(
       {this.incrementFunction, this.decrementFunction, this.quantity,this.isCart:false});
 
-
   Widget getOptions(){
     if(isCart){
       return Container();
@@ -91,4 +90,29 @@ class QuantityButton extends StatelessWidget {
       ),
     );
   }
+}
+
+class QuantityList extends StatelessWidget {
+  // const QuantityList({Key? key}) : super(key: key);
+
+  final dynamic onQtyChangeFunction;
+  final int? selectedQuantity;
+
+  QuantityList({this.onQtyChangeFunction,this.selectedQuantity});
+
+  @override
+  Widget build(BuildContext context) {
+    List<int> _qty = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+    return DropdownButton(
+      value: selectedQuantity,
+      items: _qty.map((qt) {
+        return DropdownMenuItem(
+            value: qt,
+            child: Text("$qt"));
+      }).toList(),
+      onChanged: onQtyChangeFunction,
+    );
+  }
+
 }

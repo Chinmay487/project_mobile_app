@@ -37,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
               child: ElevatedButton(
                   onPressed: (){
                     final provider = Provider.of<GoogleSignInProvider>(context,listen: false);
-                    provider.GoogleLogin();
+                    provider.googleLogin();
                   },
                   child:Row(
                     mainAxisAlignment: MainAxisAlignment.center,

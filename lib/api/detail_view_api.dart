@@ -21,3 +21,21 @@ Future<dynamic> getProductReviews({String? category, String? uniqueKey}) async {
   }
   return null;
 }
+
+Future<dynamic> addProductToCart({dynamic idToken,String? category,String? productKey,int? quantity,int? price}) async{
+  Uri url = Uri.parse("$NETWORK_URL/client/update_cart");
+  dynamic data = {
+    "idToken":idToken,
+    "category":category,
+    "product_id":productKey,
+    "quantity":quantity.toString(),
+    "price":price.toString(),
+    "add":true.toString(),
+    "index":"-1",
+    "is_qty":false.toString(),
+  };
+  Response response = await post(url,body:data);
+
+  return response.body;
+
+}

@@ -13,7 +13,7 @@ class LoginAction extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           final provider = Provider.of<GoogleSignInProvider>(context,listen: false);
-          provider.GoogleLogin();
+          provider.googleLogin();
           // Navigator.pushNamed(context,"/login");
         },
         child: const Text(
@@ -33,9 +33,9 @@ class LoginActionButton extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
       child: ElevatedButton(
-        style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all<Color>(Color(0xffCFD8DC)),
-        ),
+        // style: ButtonStyle(
+        //   backgroundColor: MaterialStateProperty.all<Color>(Color(0xffCFD8DC)),
+        // ),
         onPressed: () {},
         child: const Text(
           "Login",
@@ -54,7 +54,10 @@ class LogoutAction extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
       child: GestureDetector(
-        onTap: () {},
+        onTap: () {
+          final provider = Provider.of<GoogleSignInProvider>(context,listen: false);
+          provider.logoutUser();
+        },
         child: const Text(
           "Logout",
           style: TextStyle(

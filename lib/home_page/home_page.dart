@@ -21,10 +21,10 @@ class HomePage extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        actions: const [
-          // LoginActionButton(),
-          AvatarMenu(),
-        ],
+        // actions: const [
+        //   // LoginActionButton(),
+        //   AvatarMenu(),
+        // ],
         backgroundColor: const Color(0xffECEFF1),
       ),
       drawer: const MyDrawer(),

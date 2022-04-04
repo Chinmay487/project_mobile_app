@@ -1,9 +1,11 @@
 import "package:flutter/material.dart";
-import "../app_routes.dart";
 import "./product_quantity.dart";
 import "./detail_view.dart";
+import "../api/user_info_api.dart";
+import "package:provider/provider.dart";
+import "../authentication/google_app_auth.dart";
 
-class ProductCard extends StatelessWidget {
+class ProductCard extends StatefulWidget {
   // const ProductCard({Key? key}) : super(key: key);
 
   final bool isCart;
@@ -12,6 +14,10 @@ class ProductCard extends StatelessWidget {
   final int? price;
   final String? uniqueKey;
   final String? category;
+  final dynamic onQuantityChange;
+  final int? quantity;
+  final int? productIndex;
+  final dynamic onElementRemove;
 
   ProductCard(
       {this.isCart = false,
@@ -19,16 +25,59 @@ class ProductCard extends StatelessWidget {
       this.title,
       this.price,
       this.uniqueKey,
-      this.category});
+      this.category,
+      this.onQuantityChange,
+        this.onElementRemove,
+      this.quantity = 1,
+      this.productIndex = 0});
+
+  @override
+  State<ProductCard> createState() => _ProductCardState();
+}
+
+class _ProductCardState extends State<ProductCard> {
+  int? productQuantity = 1;
+
+
 
   Widget getCardOptions(BuildContext context) {
-    if (isCart) {
-      return const CartActions();
+    if (widget.isCart) {
+      String userToken = Provider.of<GoogleSignInProvider>(context).idToken;
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          IconButton(
+            splashRadius: 20,
+            onPressed: (){widget.onElementRemove(elementIndex : widget.productIndex!,price:widget.price);},
+            icon: const Icon(
+              Icons.delete,
+              color: Colors.red,
+            ),
+          ),
+          QuantityList(
+            selectedQuantity: productQuantity,
+            onQtyChangeFunction: (value) async{
+              setState(() {
+                productQuantity = value;
+              });
+
+              dynamic result = await updateProductQuantity(
+                  idToken:userToken,
+                  category: widget.category,
+                  quantity: productQuantity,
+                  price: widget.price,
+                  index: widget.productIndex,
+                  uniqueKey:widget.uniqueKey);
+              widget.onQuantityChange();
+            },
+          ),
+        ],
+      );
     }
     return ViewDetailButton(
-      category: category,
-      uniqueKey: uniqueKey,
-      productTitle: title!,
+      category: widget.category,
+      uniqueKey: widget.uniqueKey,
+      productTitle: widget.title!,
     );
   }
 
@@ -45,7 +94,7 @@ class ProductCard extends StatelessWidget {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Image.network(thumbnail!),
+                child: Image.network(widget.thumbnail!),
               ),
             ),
             Expanded(
@@ -53,7 +102,7 @@ class ProductCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    title!,
+                    widget.title!,
                     style: const TextStyle(
                       fontSize: 18,
                       color: Color(0xff263238),
@@ -63,7 +112,7 @@ class ProductCard extends StatelessWidget {
                     height: 20.0,
                   ),
                   Text(
-                    " \u{20B9} ${price!}",
+                    " \u{20B9} ${widget.price!}",
                     style: const TextStyle(
                       fontSize: 18,
                       color: Color(0xff263238),
@@ -73,12 +122,7 @@ class ProductCard extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  getCardOptions(context),
-                ],
-              ),
+              child: getCardOptions(context),
             ),
           ],
         ),
@@ -88,8 +132,6 @@ class ProductCard extends StatelessWidget {
 }
 
 class ViewDetailButton extends StatelessWidget {
-  // const ViewDetailButton({Key? key}) : super(key: key);
-
   final String? category;
   final String? uniqueKey;
   final String? productTitle;
@@ -128,28 +170,29 @@ class ViewDetailButton extends StatelessWidget {
   }
 }
 
-class CartActions extends StatelessWidget {
-  const CartActions({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        IconButton(
-          splashRadius: 20,
-          onPressed: () {},
-          icon: const Icon(
-            Icons.delete,
-            color: Colors.red,
-          ),
-        ),
-        ProductQuantity(
-          incrementFunction: () {},
-          decrementFunction: () {},
-          quantity: 1,
-          isCart: true,
-        )
-      ],
-    );
-  }
-}
+// class CartActions extends StatelessWidget {
+//   // const CartActions({Key? key}) : super(key: key);
+//
+//   dynamic onQuantityChangeFunction;
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//       mainAxisAlignment: MainAxisAlignment.center,
+//       children: [
+//         IconButton(
+//           splashRadius: 20,
+//           onPressed: () {},
+//           icon: const Icon(
+//             Icons.delete,
+//             color: Colors.red,
+//           ),
+//         ),
+//         QuantityList(
+//           selectedQuantity: 1,
+//           onQtyChangeFunction: (value){},
+//         ),
+//       ],
+//     );
+//   }
+// }

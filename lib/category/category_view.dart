@@ -29,16 +29,20 @@ class _CategoryViewState extends State<CategoryView> {
     var data = await getProductList(
         category: widget.category, pageNumber: selectedPageNumber + 1);
     int totalNumberOfPages = 0;
+    const url =
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRISJ6msIu4AU9_M9ZnJVQVFmfuhfyJjEtbUm3ZK11_8IV9TV25-1uM5wHjiFNwKy99w0mR5Hk&usqp=CAc";
+
     List<Widget> categoryList = [];
     if (data != null && data["product_list"].length > 0) {
       totalNumberOfPages = data["number_of_pages"];
       for (var element in data["product_list"]) {
         categoryList.add(ProductCard(
           title: element["title"],
-          thumbnail: element["thumbnail"],
+          thumbnail: url, // element["thumbnail"]
           price: element["price"],
           uniqueKey: element["key"],
           category: widget.category,
+          onQuantityChange: null,
         ));
       }
     } else {
@@ -119,7 +123,7 @@ class _CategoryViewState extends State<CategoryView> {
   }
 
   Widget getPaginator() {
-    if(noProducts){
+    if (noProducts) {
       return Container();
     }
     return NumberPaginator(
@@ -149,7 +153,7 @@ class _CategoryViewState extends State<CategoryView> {
         child: Column(
           children: [
             Expanded(
-                child: isDataFetched(),
+              child: isDataFetched(),
             ),
             getPaginator(),
           ],
