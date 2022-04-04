@@ -18,6 +18,7 @@ class ProductCard extends StatefulWidget {
   final int? quantity;
   final int? productIndex;
   final dynamic onElementRemove;
+  int? productQuantity=1;
 
   ProductCard(
       {this.isCart = false,
@@ -36,8 +37,12 @@ class ProductCard extends StatefulWidget {
 }
 
 class _ProductCardState extends State<ProductCard> {
-  int? productQuantity = 1;
 
+  @override
+  void initState(){
+    super.initState();
+    widget.productQuantity = widget.quantity;
+  }
 
 
   Widget getCardOptions(BuildContext context) {
@@ -55,16 +60,16 @@ class _ProductCardState extends State<ProductCard> {
             ),
           ),
           QuantityList(
-            selectedQuantity: productQuantity,
+            selectedQuantity: widget.productQuantity,
             onQtyChangeFunction: (value) async{
               setState(() {
-                productQuantity = value;
+                widget.productQuantity = value;
               });
 
               dynamic result = await updateProductQuantity(
                   idToken:userToken,
                   category: widget.category,
-                  quantity: productQuantity,
+                  quantity: widget.productQuantity,
                   price: widget.price,
                   index: widget.productIndex,
                   uniqueKey:widget.uniqueKey);

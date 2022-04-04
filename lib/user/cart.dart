@@ -39,7 +39,6 @@ class _CartState extends State<Cart> {
   }
 
   void onElementRemoval({int? elementIndex,int? price}){
-    // print(elementIndex);
     setState(() {
       productCartList.remove(productCartList[elementIndex!]);
     });
@@ -53,7 +52,6 @@ class _CartState extends State<Cart> {
     var userCart = await getUserCartInfo(widget.idToken);
     int counter = 0;
     for (var element in userCart) {
-      print(counter);
       cartList.add(
         ProductCard(
           isCart: true,

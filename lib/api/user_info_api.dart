@@ -75,9 +75,5 @@ Future<void> removeFromCart({int? index,String? idToken,int? price}) async {
     "category":"",
   };
   Response response = await post(url,body:data);
-  if(response.statusCode == 200){
-    var responseData = jsonDecode(response.body);
-    print(responseData);
-  }
 
 }
