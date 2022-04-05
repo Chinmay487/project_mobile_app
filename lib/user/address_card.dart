@@ -1,11 +1,11 @@
 import "package:flutter/material.dart";
 
 class AddressCard extends StatelessWidget {
-  // const AddressCard({Key? key}) : super(key: key);
 
   final bool isProfile;
+  final String? addressLine1,addressLine2,city,district,state,pincode;
 
-  AddressCard({this.isProfile:true});
+  AddressCard({this.isProfile=true,this.addressLine1,this.addressLine2,this.city,this.district,this.state,this.pincode});
 
   dynamic getDeleteButton(){
     if(isProfile){
@@ -43,13 +43,13 @@ class AddressCard extends StatelessWidget {
                     padding: const EdgeInsets.all(15.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text("Address Line 1"),
-                        Text("Address Line 2"),
-                        Text("City"),
-                        Text("District"),
-                        Text("State"),
-                        Text("Pin code")
+                      children:  [
+                        Text(addressLine1!),
+                        Text(addressLine2!),
+                        Text(city!),
+                        Text(district!),
+                        Text(state!),
+                        Text(pincode!)
                       ],
                     ),
                   )

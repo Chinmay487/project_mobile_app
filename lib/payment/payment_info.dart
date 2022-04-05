@@ -29,29 +29,6 @@ class PaymentInfo extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
-                  child: Row(
-                    children: [
-                      const Text("Shipping Address : "),
-                      Expanded(
-                        child: DropdownButton(
-                          items: <String>["Address 1", "Address 2"]
-                              .map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                          onChanged: (value) {
-                            print(value);
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
                 BillingInfo(
                   label: "Subtotal",
                   displayNumber: subTotal!,
