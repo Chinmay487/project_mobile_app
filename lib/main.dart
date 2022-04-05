@@ -15,8 +15,6 @@ void main() async {
   return runApp(const Root());
 }
 
-// ChangeNotifierProvider class
-
 class Root extends StatelessWidget {
   const Root({Key? key}) : super(key: key);
 
@@ -35,7 +33,11 @@ class Root extends StatelessWidget {
                     Provider.of<GoogleSignInProvider>(context, listen: true)
                         .idToken,
               ),
-          AppRoutes.profilePageroute: (context) => const Profile(),
+          AppRoutes.profilePageroute: (context) => Profile(
+                idToken:
+                    Provider.of<GoogleSignInProvider>(context, listen: true)
+                        .idToken,
+              ),
           // AppRoutes.moreReviewsRoute : (context) => const MoreReviews(),
           AppRoutes.loginPageRoute: (context) => const LoginPage(),
         },

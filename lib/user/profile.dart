@@ -3,9 +3,38 @@ import "./address_card.dart";
 import "./user_title.dart";
 import "./address_form.dart";
 import "./shipping_status.dart";
+import "../api/user_info_api.dart";
 
-class Profile extends StatelessWidget {
-  const Profile({Key? key}) : super(key: key);
+class Profile extends StatefulWidget {
+  // const Profile({Key? key}) : super(key: key);
+
+  final String? idToken;
+  Profile({this.idToken});
+
+  @override
+  State<Profile> createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
+
+
+
+  void getData() async{
+    print("Getting Data");
+    dynamic data = await getUserCart(widget.idToken);
+    if(data != null && data["addresses"].length > 0){
+
+    }
+    print(data);
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    getData();
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -21,38 +50,49 @@ class Profile extends StatelessWidget {
         backgroundColor: const Color(0xffECEFF1),
       ),
       body: SafeArea(
-        child: Container(
-          margin: EdgeInsets.fromLTRB(0, 15, 0, 0),
-          child: ListView(
-            children: [
-              UserTitle(title:"Your Addresses"),
-              AddressCard(),
-              AddressCard(),
-              const Gap(),
-              UserTitle(title:"Add New Address"),
-              const AddressForm(),
-              const Gap(),
-              const SizedBox(height: 20.0,),
-              UserTitle(title:"Shipping Status"),
-              const ShippingStatus(),
-            ],
-          ),
-        )
-      ),
-    );
-  }
-}
-
-class Gap extends StatelessWidget {
-  const Gap({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: const [
-        SizedBox(height: 10.0,),
-        Divider(thickness: 1.0,),
-      ],
+          child: Container(
+        margin: const EdgeInsets.fromLTRB(0, 15, 0, 0),
+        child: ListView(
+          children: [
+            UserTitle(title: "Your Addresses"),
+            AddressCard(
+              addressLine1: "Hehehe",
+              addressLine2: "Huhuhu",
+              city: "Lululu",
+              district: "lelele",
+              state: "nunun",
+              pincode: "123456",
+            ),
+            AddressCard(
+              addressLine1: "Hehehe",
+              addressLine2: "Huhuhu",
+              city: "Lululu",
+              district: "lelele",
+              state: "nunun",
+              pincode: "123456",
+            ),
+            const SizedBox(
+              height: 10.0,
+            ),
+            const Divider(
+              thickness: 1.0,
+            ),
+            UserTitle(title: "Add New Address"),
+            const AddressForm(),
+            const SizedBox(
+              height: 10.0,
+            ),
+            const Divider(
+              thickness: 1.0,
+            ),
+            const SizedBox(
+              height: 20.0,
+            ),
+            UserTitle(title: "Shipping Status"),
+            const ShippingStatus(),
+          ],
+        ),
+      )),
     );
   }
 }
