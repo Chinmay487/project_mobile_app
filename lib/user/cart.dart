@@ -4,6 +4,8 @@ import "./address_card.dart";
 import "../payment/payment_info.dart";
 import "../products/product_card.dart";
 import "../api/user_info_api.dart";
+import "package:provider/provider.dart";
+import "../authentication/google_app_auth.dart";
 
 class Cart extends StatefulWidget {
   final String? idToken;

@@ -1,17 +1,27 @@
 import "package:flutter/material.dart";
 
 class AddressCard extends StatelessWidget {
-
   final bool isProfile;
-  final String? addressLine1,addressLine2,city,district,state,pincode;
+  final String? addressLine1, addressLine2, city, district, state, pincode;
+  final dynamic? onDeleteCall,index;
 
-  AddressCard({this.isProfile=true,this.addressLine1,this.addressLine2,this.city,this.district,this.state,this.pincode});
+  AddressCard(
+      {this.isProfile = true,
+      this.addressLine1,
+      this.addressLine2,
+      this.city,
+      this.district,
+      this.state,
+      this.pincode,
+      this.onDeleteCall,this.index});
 
-  dynamic getDeleteButton(){
-    if(isProfile){
+  dynamic getDeleteButton() {
+    if (isProfile) {
       return Expanded(
         child: IconButton(
-          onPressed: (){},
+          onPressed: (){
+            onDeleteCall(index);
+          },
           icon: const Icon(
             Icons.delete,
             color: Colors.redAccent,
@@ -27,7 +37,7 @@ class AddressCard extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(
         vertical: 5,
-        horizontal: MediaQuery.of(context).size.width*0.09,
+        horizontal: MediaQuery.of(context).size.width * 0.09,
       ),
       child: SizedBox(
         // width: MediaQuery.of(context).size.width * 0.5,
@@ -39,11 +49,11 @@ class AddressCard extends StatelessWidget {
             children: [
               Expanded(
                   flex: 3,
-                  child:Padding(
+                  child: Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children:  [
+                      children: [
                         Text(addressLine1!),
                         Text(addressLine2!),
                         Text(city!),
@@ -52,8 +62,7 @@ class AddressCard extends StatelessWidget {
                         Text(pincode!)
                       ],
                     ),
-                  )
-              ),
+                  )),
               getDeleteButton(),
             ],
           ),

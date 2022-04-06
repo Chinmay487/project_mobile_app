@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
 import "./product_image.dart";
 import "./product_info.dart";
@@ -36,22 +37,6 @@ class _DetailViewState extends State<DetailView> {
 
   int _quantity = 1;
 
-  // void _increment() {
-  //   setState(() {
-  //     _quantity += 1;
-  //   });
-  // }
-  //
-  // void _decrement() {
-  //   setState(() {
-  //     if (_quantity > 0) {
-  //       _quantity -= 1;
-  //     }
-  //     if (_quantity == 0) {
-  //       _quantity = 1;
-  //     }
-  //   });
-  // }
 
   void getData() async {
     setState(() {
@@ -189,6 +174,8 @@ class _DetailViewState extends State<DetailView> {
                           setState(() {
                             addProductToCartStatus = true;
                           });
+                          final provider = Provider.of<GoogleSignInProvider>(context,listen: false);
+                          provider.getUpdatedIdToken();
                           final result = await addProductToCart(
                             idToken: idToken,
                             category: widget.category,

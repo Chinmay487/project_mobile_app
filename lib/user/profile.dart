@@ -6,7 +6,6 @@ import "./shipping_status.dart";
 import "../api/user_info_api.dart";
 
 class Profile extends StatefulWidget {
-  // const Profile({Key? key}) : super(key: key);
 
   final String? idToken;
   Profile({this.idToken});
@@ -18,13 +17,41 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
 
 
+  bool fetchAddress = false;
+  List<Widget> listOfAddresses = [];
+
 
   void getData() async{
+
+    List<Widget> addressList = [];
+
+    setState(() {
+      fetchAddress = true;
+    });
     print("Getting Data");
     dynamic data = await getUserCart(widget.idToken);
     if(data != null && data["addresses"].length > 0){
-
+      int counter = 0;
+      for(dynamic element in data["addresses"]){
+        addressList.add(
+          AddressCard(
+            addressLine1: element["line1"],
+            addressLine2: element["line2"],
+            city: element["city"],
+            district: element["district"],
+            state: element["state"],
+            pincode: element["pin"],
+            onDeleteCall: onAddressDelete,
+            index: counter,
+          )
+        );
+        counter = counter + 1;
+      }
     }
+    setState(() {
+      listOfAddresses = addressList;
+      fetchAddress = false;
+    });
     print(data);
   }
 
@@ -34,6 +61,44 @@ class _ProfileState extends State<Profile> {
     getData();
   }
 
+
+  void onAddressDelete(index) async{
+    await removeAddress(idToken: widget.idToken,index: index);
+    getData();
+  }
+
+  List<Widget> fetchingAddress(){
+    if(fetchAddress){
+      return [Center(
+        child: Container(
+          margin: EdgeInsets.symmetric(vertical: 20.0,horizontal: 0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              Text("Please Wait"),
+              SizedBox(width: 20.0,),
+              CircularProgressIndicator(),
+            ],
+          ),
+        ),
+      )];
+    }
+    List<Widget> dataToReturn = [];
+
+    if(!fetchAddress && listOfAddresses.length > 0){
+      dataToReturn = listOfAddresses;
+    } else {
+      dataToReturn.add(
+        Container(
+          margin: const EdgeInsets.symmetric(vertical: 20.0,horizontal: 0),
+          child: const Center(
+            child : Text("No Address Added")
+          ),
+        )
+      );
+    }
+    return dataToReturn;
+  }
 
 
   @override
@@ -55,22 +120,7 @@ class _ProfileState extends State<Profile> {
         child: ListView(
           children: [
             UserTitle(title: "Your Addresses"),
-            AddressCard(
-              addressLine1: "Hehehe",
-              addressLine2: "Huhuhu",
-              city: "Lululu",
-              district: "lelele",
-              state: "nunun",
-              pincode: "123456",
-            ),
-            AddressCard(
-              addressLine1: "Hehehe",
-              addressLine2: "Huhuhu",
-              city: "Lululu",
-              district: "lelele",
-              state: "nunun",
-              pincode: "123456",
-            ),
+            ...fetchingAddress(),
             const SizedBox(
               height: 10.0,
             ),

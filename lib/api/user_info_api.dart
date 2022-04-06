@@ -75,5 +75,18 @@ Future<void> removeFromCart({int? index,String? idToken,int? price}) async {
     "category":"",
   };
   Response response = await post(url,body:data);
-
 }
+
+Future<void> removeAddress({String? idToken,int? index}) async{
+  Uri url = Uri.parse("$NETWORK_URL/auth/update_address");
+  dynamic data = {
+    "address": '',
+    "idToken": idToken,
+    "add" : false.toString(),
+    "index" : "$index"
+  };
+  Response res = await post(url,body : data);
+  print(res);
+}
+
+
