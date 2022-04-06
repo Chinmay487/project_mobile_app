@@ -6,7 +6,6 @@ import "./shipping_status.dart";
 import "../api/user_info_api.dart";
 
 class Profile extends StatefulWidget {
-
   final String? idToken;
   Profile({this.idToken});
 
@@ -15,36 +14,29 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-
-
   bool fetchAddress = false;
   List<Widget> listOfAddresses = [];
 
-
-  void getData() async{
-
+  void getData() async {
     List<Widget> addressList = [];
-
     setState(() {
       fetchAddress = true;
     });
     print("Getting Data");
     dynamic data = await getUserCart(widget.idToken);
-    if(data != null && data["addresses"].length > 0){
+    if (data != null && data["addresses"].length > 0) {
       int counter = 0;
-      for(dynamic element in data["addresses"]){
-        addressList.add(
-          AddressCard(
-            addressLine1: element["line1"],
-            addressLine2: element["line2"],
-            city: element["city"],
-            district: element["district"],
-            state: element["state"],
-            pincode: element["pin"],
-            onDeleteCall: onAddressDelete,
-            index: counter,
-          )
-        );
+      for (dynamic element in data["addresses"]) {
+        addressList.add(AddressCard(
+          addressLine1: element["line1"],
+          addressLine2: element["line2"],
+          city: element["city"],
+          district: element["district"],
+          state: element["state"],
+          pincode: element["pin"],
+          onDeleteCall: onAddressDelete,
+          index: counter,
+        ));
         counter = counter + 1;
       }
     }
@@ -56,50 +48,48 @@ class _ProfileState extends State<Profile> {
   }
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     getData();
   }
 
-
-  void onAddressDelete(index) async{
-    await removeAddress(idToken: widget.idToken,index: index);
+  void onAddressDelete(index) async {
+    await removeAddress(idToken: widget.idToken, index: index);
     getData();
   }
 
-  List<Widget> fetchingAddress(){
-    if(fetchAddress){
-      return [Center(
-        child: Container(
-          margin: EdgeInsets.symmetric(vertical: 20.0,horizontal: 0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Text("Please Wait"),
-              SizedBox(width: 20.0,),
-              CircularProgressIndicator(),
-            ],
+  List<Widget> fetchingAddress() {
+    if (fetchAddress) {
+      return [
+        Center(
+          child: Container(
+            margin: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                Text("Please Wait"),
+                SizedBox(
+                  width: 20.0,
+                ),
+                CircularProgressIndicator(),
+              ],
+            ),
           ),
         ),
-      )];
+      ];
     }
     List<Widget> dataToReturn = [];
 
-    if(!fetchAddress && listOfAddresses.length > 0){
+    if (!fetchAddress && listOfAddresses.isNotEmpty) {
       dataToReturn = listOfAddresses;
     } else {
-      dataToReturn.add(
-        Container(
-          margin: const EdgeInsets.symmetric(vertical: 20.0,horizontal: 0),
-          child: const Center(
-            child : Text("No Address Added")
-          ),
-        )
-      );
+      dataToReturn.add(Container(
+        margin: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 0),
+        child: const Center(child: Text("No Address Added")),
+      ));
     }
     return dataToReturn;
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -120,6 +110,8 @@ class _ProfileState extends State<Profile> {
         child: ListView(
           children: [
             UserTitle(title: "Your Addresses"),
+            SizedBox(height: 15.0,),
+            UserTitle(title: "NOTE : You can add max 2 addresses",),
             ...fetchingAddress(),
             const SizedBox(
               height: 10.0,
@@ -128,7 +120,7 @@ class _ProfileState extends State<Profile> {
               thickness: 1.0,
             ),
             UserTitle(title: "Add New Address"),
-            const AddressForm(),
+            AddressForm(idToken: widget.idToken,afterFormSubmit:getData,lengthOfAddress: (listOfAddresses.length < 2),),
             const SizedBox(
               height: 10.0,
             ),
@@ -146,4 +138,3 @@ class _ProfileState extends State<Profile> {
     );
   }
 }
-

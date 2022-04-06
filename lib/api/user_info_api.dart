@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 import "../links.dart";
 import "package:http/http.dart";
 import "dart:convert";
@@ -62,7 +64,7 @@ Future<dynamic> getAmount({String? idToken}) async {
   return null;
 }
 
-Future<void> removeFromCart({int? index,String? idToken,int? price}) async {
+Future<void> removeFromCart({int? index, String? idToken, int? price}) async {
   Uri url = Uri.parse("$NETWORK_URL/client/update_cart");
   dynamic data = {
     "product_id": "",
@@ -72,21 +74,57 @@ Future<void> removeFromCart({int? index,String? idToken,int? price}) async {
     "is_qty": false.toString(),
     "idToken": idToken,
     "price": price.toString(),
-    "category":"",
+    "category": "",
   };
-  Response response = await post(url,body:data);
+  Response response = await post(url, body: data);
 }
 
-Future<void> removeAddress({String? idToken,int? index}) async{
+Future<void> removeAddress({String? idToken, int? index}) async {
   Uri url = Uri.parse("$NETWORK_URL/auth/update_address");
   dynamic data = {
     "address": '',
     "idToken": idToken,
-    "add" : false.toString(),
-    "index" : "$index"
+    "add": false.toString(),
+    "index": "$index",
+    "isMobile":"0"
   };
-  Response res = await post(url,body : data);
+  Response res = await post(url, body: data);
   print(res);
 }
 
+Future<void> addNewAddress(
+    {String? idToken,
+    String? line1,
+    String? line2,
+    String? city,
+    String? district,
+    String? state,
+    String? pin}) async {
+  Uri url = Uri.parse("$NETWORK_URL/auth/update_address");
+  // Map<dynamic,dynamic> address = <String,String>{
+  //   "line1": line1!,
+  //   "line2": line2!,
+  //   "city": city!,
+  //   "district": district!,
+  //   "state": state!,
+  //   "pin": pin!,
+  // };
+  dynamic data = {
+    "idToken": idToken!,
+    "add": true.toString(),
+    "index": "",
+    "isMobile":"1",
+    "line1": line1,
+    "line2": "$line2",
+    "city": "$city",
+    "district": "$district",
+    "state": "$state",
+    "pin": "$pin",
+  } ;
 
+  Response response = await post(url,body:data);
+  if(response.statusCode == 200){
+    var responseData = jsonDecode(response.body);
+    print(responseData);
+  }
+}
