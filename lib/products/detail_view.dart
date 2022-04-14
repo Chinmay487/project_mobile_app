@@ -125,7 +125,6 @@ class _DetailViewState extends State<DetailView> {
           }
         );
       }
-
     } else {
       var provider = Provider.of<GoogleSignInProvider>(
           context,

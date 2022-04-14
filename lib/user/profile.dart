@@ -137,7 +137,7 @@ class _ProfileState extends State<Profile> {
               height: 20.0,
             ),
             UserTitle(title: "Shipping Status"),
-            const ShippingStatus(),
+            ShippingStatus(idToken: widget.idToken,),
           ],
         ),
       )),

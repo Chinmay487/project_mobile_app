@@ -1,7 +1,11 @@
 import "package:flutter/material.dart";
 
 class ShippingButtonGroup extends StatelessWidget {
-  const ShippingButtonGroup({Key? key}) : super(key: key);
+  // const ShippingButtonGroup({Key? key}) : super(key: key);
+
+  final dynamic onPendingPress,onDispatchPress,onDeliveredPress;
+
+  ShippingButtonGroup({this.onDeliveredPress,this.onDispatchPress,this.onPendingPress});
 
   @override
   Widget build(BuildContext context) {
@@ -10,15 +14,15 @@ class ShippingButtonGroup extends StatelessWidget {
       children: [
         ShippingStatusButton(
           buttonText: "Pending",
-          onButtonPress: (){},
+          onButtonPress: onPendingPress,
         ),
         ShippingStatusButton(
           buttonText: "Dispatched",
-          onButtonPress: (){},
+          onButtonPress: onDispatchPress,
         ),
         ShippingStatusButton(
           buttonText: "Delivered",
-          onButtonPress: (){},
+          onButtonPress: onDeliveredPress,
         ),
       ],
     );

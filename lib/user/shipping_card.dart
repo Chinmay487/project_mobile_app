@@ -1,11 +1,31 @@
 import "package:flutter/material.dart";
 import "../button/button_outlined.dart";
+import "./shipping_detail.dart";
 
 class ShippingCard extends StatelessWidget {
-  const ShippingCard({Key? key}) : super(key: key);
+  // const ShippingCard({Key? key}) : super(key: key);
+
+  dynamic shippingInfo;
+  String? status;
+  ShippingCard({this.shippingInfo,this.status});
 
   @override
   Widget build(BuildContext context) {
+
+    String paymentDate,total,city,deliveryDate;
+
+    if(status == "pending"){
+      paymentDate = shippingInfo["payment_date"].toString();
+      total = shippingInfo["total"].toString();
+      city = shippingInfo["shipping_address"]["city"];
+      deliveryDate = "";
+    } else {
+      paymentDate = shippingInfo["user_info"]["payment_date"].toString();
+      total = shippingInfo["user_info"]["total"].toString();
+      city = shippingInfo["user_info"]["shipping_address"]["city"];
+      deliveryDate = shippingInfo["delivery_date"].toString();
+    }
+
     return Container(
       margin: const EdgeInsets.symmetric(
         vertical: 5,
@@ -23,12 +43,11 @@ class ShippingCard extends StatelessWidget {
               margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text("Payment Date : 09/11/2022"),
-                  Text("Delivery Date : 11/09/2023"),
-                  Text("Total : 1234"),
-                  Text("City : Mumbai"),
-                  Text("Products : Laptop 3,iPhone 1,Watch 3"),
+                children: [
+                  Text("Payment Date : $paymentDate"),
+                  status == "pending" ? Container() : Text("Delivery Date : $deliveryDate"),
+                  Text("Total : $total"),
+                  Text("City : $city"),
                 ],
               ),
             ),
@@ -37,7 +56,11 @@ class ShippingCard extends StatelessWidget {
             ),
             ButtonOutlined(
               displayText: "View More",
-              onTapFunction: (){},
+              onTapFunction: (){
+                Navigator.push(context,MaterialPageRoute(
+                  builder: (BuildContext context) => ShippingDetail(status: status,data: shippingInfo,)
+                ));
+              },
             ),
           ],
         ),
