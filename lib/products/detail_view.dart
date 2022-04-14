@@ -37,19 +37,19 @@ class _DetailViewState extends State<DetailView> {
 
   int _quantity = 1;
 
-
   void getData() async {
     setState(() {
       fetchDataStatus = true;
     });
     dynamic data = await getProductDetail(
         category: widget.category, uniqueKey: widget.uniqueKey);
-    const url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRISJ6msIu4AU9_M9ZnJVQVFmfuhfyJjEtbUm3ZK11_8IV9TV25-1uM5wHjiFNwKy99w0mR5Hk&usqp=CAc";
+    const url =
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRISJ6msIu4AU9_M9ZnJVQVFmfuhfyJjEtbUm3ZK11_8IV9TV25-1uM5wHjiFNwKy99w0mR5Hk&usqp=CAc";
 
     if (data != null) {
       setState(() {
         fetchDataStatus = false;
-        imageUrl = url;  //data["images"][0];
+        imageUrl = url; //data["images"][0];
         productTitle = data["title"];
         price = data["price"];
         discountPrice = data["discount_price"];
@@ -76,8 +76,63 @@ class _DetailViewState extends State<DetailView> {
     );
   }
 
+  void makePurchase ({String? idToken,bool? doNavigate}) async {
+    setState(() {
+      addProductToCartStatus = true;
+    });
+    final provider = Provider.of<GoogleSignInProvider>(
+        context,
+        listen: false);
+    provider.getUpdatedIdToken();
+    final result = await addProductToCart(
+      idToken: idToken,
+      category: widget.category,
+      productKey: widget.uniqueKey,
+      quantity: _quantity,
+      price: discountPrice,
+    );
+    setState(() {
+      _quantity = 1;
+      addProductToCartStatus = false;
+    });
+    if (result != null) {
+      if(doNavigate!){
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) =>
+                Cart(idToken: idToken),
+          ),
+        );
+      } else {
+        var alertDialog = AlertDialog(
+          title: const Text("Purchase"),
+          content: const Text("Product Added to Your Cart"),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('ok'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+        showDialog(
+          context : context,
+          barrierDismissible: false,
+          builder: (BuildContext context){
+            return alertDialog;
+          }
+        );
+      }
 
-
+    } else {
+      var provider = Provider.of<GoogleSignInProvider>(
+          context,
+          listen: false);
+      provider.logoutUser();
+    }
+  }
   Widget isDataFetched(idToken) {
     if (!fetchDataStatus) {
       return Column(
@@ -111,11 +166,11 @@ class _DetailViewState extends State<DetailView> {
                       const Text("Select Quantity : "),
                       QuantityList(
                         selectedQuantity: _quantity,
-                        onQtyChangeFunction:(value){
+                        onQtyChangeFunction: (value) {
                           setState(() {
                             _quantity = value;
                           });
-                        } ,
+                        },
                       ),
                     ],
                   ),
@@ -170,34 +225,12 @@ class _DetailViewState extends State<DetailView> {
                         ],
                       )
                     : BuyButtonGroup(
-                        buyNow: () async {
-                          setState(() {
-                            addProductToCartStatus = true;
-                          });
-                          final provider = Provider.of<GoogleSignInProvider>(context,listen: false);
-                          provider.getUpdatedIdToken();
-                          final result = await addProductToCart(
-                            idToken: idToken,
-                            category: widget.category,
-                            productKey: widget.uniqueKey,
-                            quantity: _quantity,
-                            price: discountPrice,
-                          );
-                          setState(() {
-                            _quantity = 1;
-                            addProductToCartStatus = false;
-                          });
-                          if(result != null){
-                            Navigator.push(context, MaterialPageRoute(
-                              builder: (BuildContext context) => Cart(idToken:idToken),
-                            ),
-                            );
-                          } else {
-                            var provider = Provider.of<GoogleSignInProvider>(context,listen: false);
-                            provider.logoutUser();
-                          }
+                        buyNow: (){
+                          makePurchase(idToken : idToken,doNavigate : true);
                         },
-                        addToCart: null,
+                        addToCart: (){
+                          makePurchase(idToken : idToken,doNavigate : false);
+                        },
                       ),
           ),
         ],

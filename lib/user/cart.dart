@@ -145,7 +145,6 @@ class _CartState extends State<Cart> {
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     onPaymentSuccess(response.paymentId);
     getData();
-
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
@@ -167,21 +166,30 @@ class _CartState extends State<Cart> {
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
   }
 
+  @override
+  void dispose() {
+    _razorpay.clear();
+    super.dispose();
+  }
+
   void confirmPayment({String? name, String? email}) async {
     dynamic data = await getPaymentKeys(idToken: widget.idToken);
-    String apiKey = data["api_key"];
-    String apiSecrete = data["api_secrete"];
-    dynamic options = {
-      "key": apiKey,
-      "key_secrete": apiSecrete,
-      "amount": (total! * 100).toString(),
-      "currency": "INR",
-      "name": name,
-      "description": "Shopping With ShopHeaven",
-      'timeout': 300,
-      "prefill": {"email": email}
-    };
-    _razorpay.open(options);
+    if(data != null){
+      String apiKey = data["api_key"];
+      String apiSecrete = data["api_secrete"];
+      dynamic options = {
+        "key": apiKey,
+        "key_secrete": apiSecrete,
+        "amount": (total! * 100).toString(),
+        "currency": "INR",
+        "name": name,
+        "description": "Shopping With ShopHeaven",
+        'timeout': 300,
+        "prefill": {"email": email}
+      };
+      _razorpay.open(options);
+    }
+
   }
 
   Widget isDataAvailable({dynamic name, dynamic email}) {
