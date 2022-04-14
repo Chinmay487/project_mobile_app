@@ -22,7 +22,6 @@ class _ProfileState extends State<Profile> {
     setState(() {
       fetchAddress = true;
     });
-    print("Getting Data");
     dynamic data = await getUserCart(widget.idToken);
     if (data != null && data["addresses"].length > 0) {
       int counter = 0;
@@ -44,7 +43,6 @@ class _ProfileState extends State<Profile> {
       listOfAddresses = addressList;
       fetchAddress = false;
     });
-    print(data);
   }
 
   @override
@@ -110,8 +108,12 @@ class _ProfileState extends State<Profile> {
         child: ListView(
           children: [
             UserTitle(title: "Your Addresses"),
-            SizedBox(height: 15.0,),
-            UserTitle(title: "NOTE : You can add max 2 addresses",),
+            const SizedBox(
+              height: 15.0,
+            ),
+            UserTitle(
+              title: "NOTE : You can add max 2 addresses",
+            ),
             ...fetchingAddress(),
             const SizedBox(
               height: 10.0,
@@ -120,7 +122,11 @@ class _ProfileState extends State<Profile> {
               thickness: 1.0,
             ),
             UserTitle(title: "Add New Address"),
-            AddressForm(idToken: widget.idToken,afterFormSubmit:getData,lengthOfAddress: (listOfAddresses.length < 2),),
+            AddressForm(
+              idToken: widget.idToken,
+              afterFormSubmit: getData,
+              lengthOfAddress: (listOfAddresses.length < 2),
+            ),
             const SizedBox(
               height: 10.0,
             ),

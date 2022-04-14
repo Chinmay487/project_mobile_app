@@ -71,18 +71,13 @@ class MyDrawer extends StatelessWidget {
             children: [
               getDrawerHeader(context),
               DrawerElement(
-                category: "Home Screen",
-                onTapFunction: (){
-                  Navigator.pushNamed(context,AppRoutes.homePageRoute);
-                },
-              ),
-              DrawerElement(
                 category: "laptop",
                 onTapFunction: () {
                   pushToCategoryPage(
                       category: "laptop",
                       displayTitle: "Laptop",
-                      context: context);
+                      context: context,
+                  );
                 },
               ),
               DrawerElement(
@@ -91,7 +86,8 @@ class MyDrawer extends StatelessWidget {
                   pushToCategoryPage(
                       category: "camera",
                       displayTitle: "Camera",
-                      context: context);
+                      context: context,
+                  );
                 },
               ),
               DrawerElement(

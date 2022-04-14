@@ -4,6 +4,8 @@ import "./address_card.dart";
 import "../payment/payment_info.dart";
 import "../products/product_card.dart";
 import "../api/user_info_api.dart";
+import "../api/payment_info_api.dart";
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 import "package:provider/provider.dart";
 import "../authentication/google_app_auth.dart";
 
@@ -17,6 +19,8 @@ class Cart extends StatefulWidget {
 }
 
 class _CartState extends State<Cart> {
+  late var _razorpay;
+
   bool isDataFetched = true;
   bool noCart = false;
   List<Widget> productCartList = [];
@@ -42,6 +46,7 @@ class _CartState extends State<Cart> {
 
   void onElementRemoval({int? elementIndex, int? price}) {
     setState(() {
+      isDataFetched = true;
       productCartList.remove(productCartList[elementIndex!]);
     });
     removeFromCart(
@@ -81,6 +86,9 @@ class _CartState extends State<Cart> {
     var data = await getUserCart(widget.idToken);
     setState(() {
       isDataFetched = true;
+      total = 0;
+      subTotal = 0;
+      charges = 0;
     });
     if (data != null) {
       if (data["addresses"].length > 0) {
@@ -88,9 +96,8 @@ class _CartState extends State<Cart> {
         List<dynamic> indexOfAddress = [];
         int counter = 0;
         for (var address in data["addresses"]) {
-          indexOfAddress.add(
-              {"title":"Address${counter + 1}","index":counter}
-          );
+          indexOfAddress
+              .add({"title": "Address${counter + 1}", "index": counter});
           counter = counter + 1;
           listOfAddress.add(AddressCard(
             isProfile: false,
@@ -108,7 +115,6 @@ class _CartState extends State<Cart> {
           addressList = listOfAddress;
           indexListOfAddress = indexOfAddress;
         });
-        // print(addressList);
       }
 
       if (data["cart"].length > 0) {
@@ -123,19 +129,62 @@ class _CartState extends State<Cart> {
     });
   }
 
-  void updateIndex(value){
+  void updateIndex(value) {
     setState(() {
       selectedAddressIndex = value;
     });
+  }
+
+  void onPaymentSuccess(String? paymentId) async {
+    await paymentSuccess(
+        idToken: widget.idToken,
+        paymentId: paymentId,
+        addressIndex: selectedAddressIndex);
+  }
+
+  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+    onPaymentSuccess(response.paymentId);
+    getData();
+
+  }
+
+  void _handlePaymentError(PaymentFailureResponse response) {
+    // Do something when payment fails
+    print("Payment Fail");
+  }
+
+  void _handleExternalWallet(ExternalWalletResponse response) {
+    // Do something when an external wallet is selected
   }
 
   @override
   void initState() {
     super.initState();
     getData();
+    _razorpay = Razorpay();
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
   }
 
-  Widget isDataAvailable() {
+  void confirmPayment({String? name, String? email}) async {
+    dynamic data = await getPaymentKeys(idToken: widget.idToken);
+    String apiKey = data["api_key"];
+    String apiSecrete = data["api_secrete"];
+    dynamic options = {
+      "key": apiKey,
+      "key_secrete": apiSecrete,
+      "amount": (total! * 100).toString(),
+      "currency": "INR",
+      "name": name,
+      "description": "Shopping With ShopHeaven",
+      'timeout': 300,
+      "prefill": {"email": email}
+    };
+    _razorpay.open(options);
+  }
+
+  Widget isDataAvailable({dynamic name, dynamic email}) {
     if (isDataFetched) {
       return Center(
         child: Row(
@@ -159,7 +208,20 @@ class _CartState extends State<Cart> {
             total: total!,
             subTotal: subTotal!,
             charges: charges!,
+            onTapFunction: (isAddressAvailable && productCartList.length > 0)
+                ? () {
+                    confirmPayment(name: name, email: email);
+                  }
+                : null,
           ),
+          const SizedBox(
+            height: 20,
+          ),
+          (isAddressAvailable && productCartList.isNotEmpty)
+              ? Container()
+              : const Center(
+                  child: Text("Please Add Something to cart"),
+                ),
           const SizedBox(
             height: 20,
           ),
@@ -179,16 +241,18 @@ class _CartState extends State<Cart> {
                         children: [
                           // SizedBox(height: 20.0,),
                           const Text("Shipping Address : "),
-                          const SizedBox(width: 20.0,),
+                          const SizedBox(
+                            width: 20.0,
+                          ),
                           DropdownButton(
                             value: selectedAddressIndex,
-                            items: indexListOfAddress.map((item){
+                            items: indexListOfAddress.map((item) {
                               return DropdownMenuItem(
-                                  child:Text(item["title"]) ,
+                                child: Text(item["title"]),
                                 value: item["index"],
                               );
                             }).toList(),
-                            onChanged: (value){
+                            onChanged: (value) {
                               updateIndex(value);
                             },
                           )
@@ -228,6 +292,8 @@ class _CartState extends State<Cart> {
 
   @override
   Widget build(BuildContext context) {
+    String name = Provider.of<GoogleSignInProvider>(context).name;
+    String email = Provider.of<GoogleSignInProvider>(context).email;
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Color(0xff37474F)),
@@ -240,7 +306,7 @@ class _CartState extends State<Cart> {
         backgroundColor: const Color(0xffECEFF1),
       ),
       body: SafeArea(
-        child: isDataAvailable(),
+        child: isDataAvailable(name: name, email: email),
       ),
     );
   }
@@ -261,7 +327,6 @@ class CartList extends StatelessWidget {
   }
 }
 
-
 class AddressSelector extends StatelessWidget {
   // const AddressSelector({Key? key}) : super(key: key);
   final List<dynamic>? indexOfAddress;
@@ -270,8 +335,10 @@ class AddressSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    List<dynamic> addrs = [{"title":"Address 1","index":0},{"title":"Address 2","index":1}];
+    List<dynamic> addrs = [
+      {"title": "Address 1", "index": 0},
+      {"title": "Address 2", "index": 1}
+    ];
 
     return Container(
       child: Row(
@@ -279,25 +346,23 @@ class AddressSelector extends StatelessWidget {
         children: [
           // SizedBox(height: 20.0,),
           const Text("Shipping Address : "),
-          const SizedBox(width: 20.0,),
+          const SizedBox(
+            width: 20.0,
+          ),
           DropdownButton(
             value: addrs[0]["index"],
-              items: addrs.map((item){
-                return DropdownMenuItem(
-                    child: Text(item["title"]),
-                  value: item["index"],
-                );
-              }).toList(),
-              onChanged: (value){
-                print(value);
-              },
+            items: addrs.map((item) {
+              return DropdownMenuItem(
+                child: Text(item["title"]),
+                value: item["index"],
+              );
+            }).toList(),
+            onChanged: (value) {
+              print(value);
+            },
           )
         ],
       ),
     );
   }
 }
-
-
-
-

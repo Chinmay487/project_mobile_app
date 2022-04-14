@@ -6,6 +6,8 @@ class GoogleSignInProvider extends ChangeNotifier{
   final googleSignIn = GoogleSignIn();
   GoogleSignInAccount? user;
   dynamic idToken;
+  late String name;
+  late String email;
 
   Future googleLogin() async{
     dynamic googleAuth, credential;
@@ -17,15 +19,16 @@ class GoogleSignInProvider extends ChangeNotifier{
        return;
      }
       googleAuth = await googleUser.authentication;
-     print(googleAuth);
       credential = GoogleAuthProvider.credential(
          accessToken : googleAuth.accessToken,
          idToken : idToken
      );
      await FirebaseAuth.instance.signInWithCredential(credential);
 
-     final tokenResult = await FirebaseAuth.instance.currentUser!;
+     final tokenResult = FirebaseAuth.instance.currentUser!;
      idToken = await tokenResult.getIdToken();
+     name = googleUser.displayName!;
+     email = googleUser.email;
 
    } catch (error){
      logoutUser();

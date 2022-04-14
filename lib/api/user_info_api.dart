@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-
 import "../links.dart";
 import "package:http/http.dart";
 import "dart:convert";
@@ -101,14 +99,6 @@ Future<void> addNewAddress(
     String? state,
     String? pin}) async {
   Uri url = Uri.parse("$NETWORK_URL/auth/update_address");
-  // Map<dynamic,dynamic> address = <String,String>{
-  //   "line1": line1!,
-  //   "line2": line2!,
-  //   "city": city!,
-  //   "district": district!,
-  //   "state": state!,
-  //   "pin": pin!,
-  // };
   dynamic data = {
     "idToken": idToken!,
     "add": true.toString(),
@@ -123,8 +113,7 @@ Future<void> addNewAddress(
   } ;
 
   Response response = await post(url,body:data);
-  if(response.statusCode == 200){
-    var responseData = jsonDecode(response.body);
-    print(responseData);
-  }
+  // if(response.statusCode == 200){
+  //   var responseData = jsonDecode(response.body);
+  // }
 }

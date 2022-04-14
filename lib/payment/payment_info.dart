@@ -2,12 +2,12 @@ import "package:flutter/material.dart";
 import "../button/button_outlined.dart";
 
 class PaymentInfo extends StatelessWidget {
-  // const PaymentInfo({Key? key}) : super(key: key);
   final double? total;
   final double? charges;
   final double? subTotal;
+  final dynamic? onTapFunction;
 
-  PaymentInfo({this.total,this.charges,this.subTotal});
+  PaymentInfo({this.total,this.charges,this.subTotal,this.onTapFunction});
 
 
   @override
@@ -43,7 +43,7 @@ class PaymentInfo extends StatelessWidget {
                 ),
                 ButtonOutlined(
                   displayText: "Order Now",
-                  onTapFunction: null,
+                  onTapFunction: onTapFunction,
                 ),
               ],
             ),
