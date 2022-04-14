@@ -2,7 +2,6 @@ import "package:flutter/material.dart";
 import "./user_rating.dart";
 
 class ReviewCard extends StatelessWidget {
-// const ReviewCard({Key? key}) : super(key: key);
 
   final String? description;
   final String? reviewTitle;

@@ -1,8 +1,7 @@
 import "package:flutter/material.dart";
 import "../drawer/drawer.dart";
 import "../products/product_list.dart";
-import "../authentication/auth_actions.dart";
-import "../avatar/avatar_menu.dart";
+
 
 
 
@@ -21,10 +20,7 @@ class HomePage extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        // actions: const [
-        //   // LoginActionButton(),
-        //   AvatarMenu(),
-        // ],
+
         backgroundColor: const Color(0xffECEFF1),
       ),
       drawer: const MyDrawer(),
@@ -33,10 +29,10 @@ class HomePage extends StatelessWidget {
           cacheExtent: 9999,
           children: [
             ProductList(category: "laptop",),
-            // ProductList(category: "iPhone",),
-            // ProductList(category: "Camera",),
-            // ProductList(category: "Clock",),
-            // ProductList(category: "Watch",)
+            ProductList(category: "iPhone",),
+            ProductList(category: "Camera",),
+            ProductList(category: "Clock",),
+            ProductList(category: "Watch",)
           ],
         ),
       ),

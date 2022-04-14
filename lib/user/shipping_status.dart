@@ -28,8 +28,7 @@ class _ShippingStatusState extends State<ShippingStatus> {
       fetchingData = true;
     });
     List<Widget> statusData = [];
-    dynamic data =
-        await getPaymentStatus(idToken: widget.idToken, status: shippingStatus);
+    dynamic data = await getPaymentStatus(idToken: widget.idToken, status: shippingStatus);
     if (data != null) {
       if (data.length > 0) {
         for (var element in data) {

@@ -1,7 +1,6 @@
 import "package:flutter/material.dart";
 
 class ButtonOutlined extends StatelessWidget {
-  // const ButtonOutlined({Key? key}) : super(key: key);
 
   final String? displayText;
   final dynamic onTapFunction;

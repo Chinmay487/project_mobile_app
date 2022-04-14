@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
+
 import "package:flutter/material.dart";
 import "./product_image.dart";
 import "./product_info.dart";
@@ -13,7 +13,7 @@ import "../authentication/google_app_auth.dart";
 import "../user/cart.dart";
 
 class DetailView extends StatefulWidget {
-  // const DetailView({Key? key}) : super(key: key);
+
 
   final String? category;
   final String? uniqueKey;
@@ -43,13 +43,11 @@ class _DetailViewState extends State<DetailView> {
     });
     dynamic data = await getProductDetail(
         category: widget.category, uniqueKey: widget.uniqueKey);
-    const url =
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRISJ6msIu4AU9_M9ZnJVQVFmfuhfyJjEtbUm3ZK11_8IV9TV25-1uM5wHjiFNwKy99w0mR5Hk&usqp=CAc";
 
     if (data != null) {
       setState(() {
         fetchDataStatus = false;
-        imageUrl = url; //data["images"][0];
+        imageUrl = data["images"][0];
         productTitle = data["title"];
         price = data["price"];
         discountPrice = data["discount_price"];
@@ -197,7 +195,11 @@ class _DetailViewState extends State<DetailView> {
                   const Divider(
                     thickness: 1.0,
                   ),
-                  const UserReviewForm(),
+                  UserReviewForm(
+                    idToken : idToken,
+                    uniqueId : widget.uniqueKey,
+                      category : widget.category,
+                  ),
                 ],
               ),
             ),

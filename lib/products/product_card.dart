@@ -6,7 +6,6 @@ import "package:provider/provider.dart";
 import "../authentication/google_app_auth.dart";
 
 class ProductCard extends StatefulWidget {
-  // const ProductCard({Key? key}) : super(key: key);
 
   final bool isCart;
   final String? thumbnail;
@@ -149,7 +148,7 @@ class ViewDetailButton extends StatelessWidget {
       highlightColor: const Color(0xffCFD8DC),
       splashColor: const Color(0xff4FC3F7),
       onTap: () {
-        // Navigator.pushNamed(context, AppRoutes.detailViewRoute);
+
         Navigator.push<void>(
           context,
           MaterialPageRoute<void>(
@@ -175,29 +174,3 @@ class ViewDetailButton extends StatelessWidget {
   }
 }
 
-// class CartActions extends StatelessWidget {
-//   // const CartActions({Key? key}) : super(key: key);
-//
-//   dynamic onQuantityChangeFunction;
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       mainAxisAlignment: MainAxisAlignment.center,
-//       children: [
-//         IconButton(
-//           splashRadius: 20,
-//           onPressed: () {},
-//           icon: const Icon(
-//             Icons.delete,
-//             color: Colors.red,
-//           ),
-//         ),
-//         QuantityList(
-//           selectedQuantity: 1,
-//           onQtyChangeFunction: (value){},
-//         ),
-//       ],
-//     );
-//   }
-// }

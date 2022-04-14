@@ -1,7 +1,6 @@
 import "package:flutter/material.dart";
 
 class UserTitle extends StatelessWidget {
-  // const UserTitle({Key? key}) : super(key: key);
 
   final String? title;
 

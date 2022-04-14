@@ -3,7 +3,6 @@ import "../button/button_outlined.dart";
 import "./shipping_detail.dart";
 
 class ShippingCard extends StatelessWidget {
-  // const ShippingCard({Key? key}) : super(key: key);
 
   dynamic shippingInfo;
   String? status;

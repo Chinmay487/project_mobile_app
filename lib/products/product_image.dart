@@ -2,9 +2,7 @@ import "package:flutter/material.dart";
 
 
 class ProductImage extends StatelessWidget {
-  // const ProductImage({Key? key}) : super(key: key);
-
-  String? imageUrl;
+    String? imageUrl;
 
   ProductImage({this.imageUrl});
 

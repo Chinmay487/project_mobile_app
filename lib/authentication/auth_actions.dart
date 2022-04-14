@@ -9,37 +9,15 @@ class LoginAction extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
       child: GestureDetector(
         onTap: () {
           final provider = Provider.of<GoogleSignInProvider>(context,listen: false);
           provider.googleLogin();
-          // Navigator.pushNamed(context,"/login");
         },
         child: const Text(
           "Login",
           style: TextStyle(fontSize: 16, color: Colors.blueGrey),
-        ),
-      ),
-    );
-  }
-}
-
-class LoginActionButton extends StatelessWidget {
-  const LoginActionButton({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
-      child: ElevatedButton(
-        // style: ButtonStyle(
-        //   backgroundColor: MaterialStateProperty.all<Color>(Color(0xffCFD8DC)),
-        // ),
-        onPressed: () {},
-        child: const Text(
-          "Login",
-          style: TextStyle(fontSize: 16, color: Color(0xff37474F)),
         ),
       ),
     );

@@ -149,7 +149,6 @@ class _CartState extends State<Cart> {
 
   void _handlePaymentError(PaymentFailureResponse response) {
     // Do something when payment fails
-    // print("Payment Fail");
   }
 
   void _handleExternalWallet(ExternalWalletResponse response) {
@@ -321,7 +320,7 @@ class _CartState extends State<Cart> {
 }
 
 class CartList extends StatelessWidget {
-  // const CartList({Key? key}) : super(key: key);
+
 
   final List<Widget>? productCartList;
 
@@ -336,7 +335,7 @@ class CartList extends StatelessWidget {
 }
 
 class AddressSelector extends StatelessWidget {
-  // const AddressSelector({Key? key}) : super(key: key);
+
   final List<dynamic>? indexOfAddress;
 
   AddressSelector({this.indexOfAddress});
@@ -352,7 +351,7 @@ class AddressSelector extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // SizedBox(height: 20.0,),
+
           const Text("Shipping Address : "),
           const SizedBox(
             width: 20.0,

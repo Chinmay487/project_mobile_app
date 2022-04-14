@@ -6,6 +6,4 @@ class AppRoutes{
   static String categotyRoute = "/category";
   static String detailViewRoute = "/detail";
   static String moreReviewsRoute = "/more_reviews";
-  static String loginPageRoute = "/login";
-  static String paymentPageRoute = "/payment_page";
 }

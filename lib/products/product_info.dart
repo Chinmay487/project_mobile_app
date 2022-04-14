@@ -1,7 +1,6 @@
 import "package:flutter/material.dart";
 
 class ProductInfo extends StatelessWidget {
-  // const ProductInfo({Key? key}) : super(key: key);
 
   final String? description;
   final int? price;

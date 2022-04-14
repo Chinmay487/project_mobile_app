@@ -193,32 +193,3 @@ class _AddressFormState extends State<AddressForm> {
     );
   }
 }
-
-// class AddressFormField extends StatelessWidget {
-//   final dynamic onInputChangeFunction;
-//   final String? hintText;
-//   final String? labelText;
-//   final dynamic validatorFunction;
-//
-//   AddressFormField({this.hintText,this.labelText,this.onInputChangeFunction,this.validatorFunction});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       children: [
-//         TextFormField(
-//           onChanged: onInputChangeFunction,
-//           validator:(value){
-//             validatorFunction(value);
-//           },
-//           decoration: InputDecoration(
-//             hintText: hintText!,
-//             labelText: labelText!,
-//           ),
-//         ),
-//         const SizedBox(height: 15,),
-//       ],
-//     );
-//   }
-// }
-//

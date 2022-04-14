@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import "../authentication/auth_actions.dart";
 
 
 class AppDrwerHeader extends StatelessWidget {
-  // const AppDrwerHeader({Key? key}) : super(key: key);
 
   final String? avatarUrl;
   final String? name;
@@ -13,8 +11,6 @@ class AppDrwerHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    // const String _imageUrl = "https://ggsc.s3.amazonaws.com/images/uploads/The_Science-Backed_Benefits_of_Being_a_Dog_Owner.jpg";
 
     return Column(
       children:  [

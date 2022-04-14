@@ -4,7 +4,6 @@ import "../api/category_view_api.dart";
 import "../products/product_card.dart";
 
 class CategoryView extends StatefulWidget {
-  // const CategoryView({Key? key}) : super(key: key);
 
   final String? category;
   final String? displayTitle;
@@ -38,7 +37,7 @@ class _CategoryViewState extends State<CategoryView> {
       for (var element in data["product_list"]) {
         categoryList.add(ProductCard(
           title: element["title"],
-          thumbnail: url, // element["thumbnail"]
+          thumbnail: element["thumbnail"],
           price: element["price"],
           uniqueKey: element["key"],
           category: widget.category,
