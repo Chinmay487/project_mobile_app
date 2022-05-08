@@ -29,10 +29,10 @@ class HomePage extends StatelessWidget {
           cacheExtent: 9999,
           children: [
             ProductList(category: "laptop",),
-            ProductList(category: "iPhone",),
-            ProductList(category: "Camera",),
-            ProductList(category: "Clock",),
-            ProductList(category: "Watch",)
+            ProductList(category: "iphone",),
+            ProductList(category: "camera",),
+            ProductList(category: "clock",),
+            ProductList(category: "watch",)
           ],
         ),
       ),
